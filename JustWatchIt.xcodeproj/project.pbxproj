@@ -14,6 +14,8 @@
 		90733C7D25C8E445006717D2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90733C7C25C8E445006717D2 /* SceneDelegate.swift */; };
 		90733C8425C8E446006717D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90733C8325C8E446006717D2 /* Assets.xcassets */; };
 		90733C8725C8E446006717D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90733C8525C8E446006717D2 /* LaunchScreen.storyboard */; };
+		90E854A726082C360060ABCD /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E854A626082C360060ABCD /* WatchListViewController.swift */; };
+		90E854AB260830F20060ABCD /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E854AA260830F20060ABCD /* DiscoverViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		90733C8325C8E446006717D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		90733C8625C8E446006717D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		90733C8825C8E446006717D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90E854A626082C360060ABCD /* WatchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListViewController.swift; sourceTree = "<group>"; };
+		90E854AA260830F20060ABCD /* DiscoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +61,10 @@
 		900BD0F92602A656003EFBF8 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
-				900BD0EC2602A435003EFBF8 /* TabBarViewController.swift */,
 				900BD0EF2602A44A003EFBF8 /* HomeViewController.swift */,
+				90E854AA260830F20060ABCD /* DiscoverViewController.swift */,
+				900BD0EC2602A435003EFBF8 /* TabBarViewController.swift */,
+				90E854A626082C360060ABCD /* WatchListViewController.swift */,
 				900BD0F22602A453003EFBF8 /* SearchViewController.swift */,
 			);
 			path = "View Model";
@@ -173,8 +179,10 @@
 			files = (
 				900BD0F32602A453003EFBF8 /* SearchViewController.swift in Sources */,
 				900BD0F02602A44A003EFBF8 /* HomeViewController.swift in Sources */,
+				90E854AB260830F20060ABCD /* DiscoverViewController.swift in Sources */,
 				900BD0ED2602A435003EFBF8 /* TabBarViewController.swift in Sources */,
 				90733C7B25C8E445006717D2 /* AppDelegate.swift in Sources */,
+				90E854A726082C360060ABCD /* WatchListViewController.swift in Sources */,
 				90733C7D25C8E445006717D2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
