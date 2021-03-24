@@ -14,11 +14,21 @@ class HomeViewController: UIViewController {
     weak var collectionViewC: UICollectionView!
     weak var collectionViewD: UICollectionView!
     
+    let scrollView: UIScrollView = {
+        
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.backgroundColor = .black
+        scrollView.showsVerticalScrollIndicator = false
+           return scrollView
+       }()
+    
     private let title1: UILabel = {
         let title1 = UILabel()
         title1.translatesAutoresizingMaskIntoConstraints = false
         title1.text = "Popular"
         title1.font = title1.font.withSize(20)
+        title1.textColor = .white
         return title1
     }()
     
@@ -27,6 +37,7 @@ class HomeViewController: UIViewController {
         title2.translatesAutoresizingMaskIntoConstraints = false
         title2.text = "In Theaters"
         title2.font = title2.font.withSize(20)
+        title2.textColor = .white
         return title2
     }()
     
@@ -35,6 +46,7 @@ class HomeViewController: UIViewController {
         title3.translatesAutoresizingMaskIntoConstraints = false
         title3.text = "Coming Soon"
         title3.font = title3.font.withSize(20)
+        title3.textColor = .white
         return title3
     }()
     
@@ -43,6 +55,7 @@ class HomeViewController: UIViewController {
         title4.translatesAutoresizingMaskIntoConstraints = false
         title4.text = "Top Rated"
         title4.font = title4.font.withSize(20)
+        title4.textColor = .white
         return title4
     }()
 
@@ -53,12 +66,14 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("HomeVC loaded")
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         
-        view.addSubview(title1)
-        view.addSubview(title2)
-        view.addSubview(title3)
-        view.addSubview(title4)
+        view.addSubview(scrollView)
+        scrollView.addSubview(title1)
+        scrollView.addSubview(title2)
+        scrollView.addSubview(title3)
+        scrollView.addSubview(title4)
+        
         addConstraints()
        
                
@@ -68,16 +83,16 @@ class HomeViewController: UIViewController {
         self.collectionViewD.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCellD")
 
         self.collectionViewA.alwaysBounceVertical = true
-        self.collectionViewA.backgroundColor = .white
+        self.collectionViewA.backgroundColor = .black
 
         self.collectionViewB.alwaysBounceVertical = true
-        self.collectionViewB.backgroundColor = .white
+        self.collectionViewB.backgroundColor = .black
 
         self.collectionViewC.alwaysBounceVertical = true
-        self.collectionViewC.backgroundColor = .white
+        self.collectionViewC.backgroundColor = .black
 
         self.collectionViewD.alwaysBounceVertical = true
-        self.collectionViewD.backgroundColor = .white
+        self.collectionViewD.backgroundColor = .black
 
         self.collectionViewA.delegate = self
         self.collectionViewB.delegate = self
@@ -90,6 +105,11 @@ class HomeViewController: UIViewController {
         self.collectionViewD.dataSource = self
         
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 200)
     }
     
     override func loadView() {
@@ -118,11 +138,15 @@ class HomeViewController: UIViewController {
         self.collectionViewB = collectionViewB
         self.collectionViewC = collectionViewC
         self.collectionViewD = collectionViewD
+        collectionViewA.showsHorizontalScrollIndicator = false
+        collectionViewB.showsHorizontalScrollIndicator = false
+        collectionViewC.showsHorizontalScrollIndicator = false
+        collectionViewD.showsHorizontalScrollIndicator = false
 
-        self.view.addSubview(collectionViewA)
-        self.view.addSubview(collectionViewB)
-        self.view.addSubview(collectionViewC)
-        self.view.addSubview(collectionViewD)
+        scrollView.addSubview(collectionViewA)
+        scrollView.addSubview(collectionViewB)
+        scrollView.addSubview(collectionViewC)
+        scrollView.addSubview(collectionViewD)
     }
     
     private func addConstraints(){
@@ -130,8 +154,16 @@ class HomeViewController: UIViewController {
         
         //Add constraints
         
+        //ScrollView
+        
+        
+        constraints.append(scrollView.leftAnchor.constraint(equalTo: view.leftAnchor))
+        constraints.append(scrollView.topAnchor.constraint(equalTo: view.topAnchor))
+        constraints.append(scrollView.rightAnchor.constraint(equalTo: view.rightAnchor))
+        constraints.append(scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
+        
         //Title1
-        constraints.append(title1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20))
+        constraints.append(title1.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20))
         constraints.append(title1.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(title1.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
        
@@ -159,30 +191,30 @@ class HomeViewController: UIViewController {
         constraints.append(collectionViewA.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewA.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
-        constraints.append(collectionViewA.heightAnchor.constraint(equalToConstant: view.frame.width/2))
+        constraints.append(collectionViewA.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
 
         // CollectionViewB
         constraints.append(collectionViewB.topAnchor.constraint(equalTo: title2.bottomAnchor, constant: 10))
         constraints.append(collectionViewB.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewB.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
-        constraints.append(collectionViewB.heightAnchor.constraint(equalToConstant: view.frame.width/2))
+        constraints.append(collectionViewB.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
         
         // CollectionViewC
         constraints.append(collectionViewC.topAnchor.constraint(equalTo: title3.topAnchor, constant: 30))
         constraints.append(collectionViewC.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewC.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
-        constraints.append(collectionViewC.heightAnchor.constraint(equalToConstant: view.frame.width/2))
+        constraints.append(collectionViewC.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
 
         // CollectionViewD
         constraints.append(collectionViewD.topAnchor.constraint(equalTo: title4.topAnchor, constant: 30))
         constraints.append(collectionViewD.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewD.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
-        constraints.append(collectionViewD.heightAnchor.constraint(equalToConstant: view.frame.width/2))
+        constraints.append(collectionViewD.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
         
          
                
         //Activate (applying)
-               NSLayoutConstraint.activate(constraints)
+        NSLayoutConstraint.activate(constraints)
     }
 }
 
@@ -235,7 +267,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                             layout collectionViewLayout: UICollectionViewLayout,
                             sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2)
+        return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2 + 20)
         }
     
 }

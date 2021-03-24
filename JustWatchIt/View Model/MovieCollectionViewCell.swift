@@ -4,6 +4,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     static var identifier: String = "Cell"
     
     weak var textLabel: UILabel!
+
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -11,6 +12,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
         let textLabel = UILabel(frame: .zero)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(textLabel)
+        
         
         NSLayoutConstraint.activate([
         self.contentView.centerXAnchor.constraint(equalTo: textLabel.centerXAnchor),
