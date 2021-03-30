@@ -2,25 +2,22 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
     static var identifier: String = "Cell"
-    
-    weak var textLabel: UILabel!
-
+    weak var imageView: UIImageView!
     
     override init(frame: CGRect){
         super.init(frame: frame)
         
-        let textLabel = UILabel(frame: .zero)
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(textLabel)
+        let imageV = UIImageView(frame: .zero)
         
+        imageV.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(imageV)
         
         NSLayoutConstraint.activate([
-        self.contentView.centerXAnchor.constraint(equalTo: textLabel.centerXAnchor),
-        self.contentView.centerYAnchor.constraint(equalTo: textLabel.centerYAnchor),
+        self.contentView.centerXAnchor.constraint(equalTo: imageV.centerXAnchor),
+        self.contentView.centerYAnchor.constraint(equalTo: imageV.centerYAnchor),
         ])
         
-        self.textLabel = textLabel
-        self.reset()
+        self.imageView = imageV
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,10 +26,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
 
        override func prepareForReuse() {
            super.prepareForReuse()
-           self.reset()
        }
 
-       func reset() {
-           self.textLabel.textAlignment = .center
-       }
+       
 }

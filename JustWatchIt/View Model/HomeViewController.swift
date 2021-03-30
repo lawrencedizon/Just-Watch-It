@@ -1,10 +1,3 @@
-//
-//  HomeViewController.swift
-//  JustWatchIt
-//
-//  Created by Lawrence Dizon on 3/17/21.
-//
-
 import UIKit
 
 class HomeViewController: UIViewController {
@@ -15,7 +8,6 @@ class HomeViewController: UIViewController {
     weak var collectionViewD: UICollectionView!
     
     let scrollView: UIScrollView = {
-        
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .black
@@ -27,7 +19,7 @@ class HomeViewController: UIViewController {
         let title1 = UILabel()
         title1.translatesAutoresizingMaskIntoConstraints = false
         title1.text = "Popular"
-        title1.font = title1.font.withSize(20)
+        title1.font = UIFont.boldSystemFont(ofSize: 23)
         title1.textColor = .white
         return title1
     }()
@@ -36,7 +28,7 @@ class HomeViewController: UIViewController {
         let title2 = UILabel()
         title2.translatesAutoresizingMaskIntoConstraints = false
         title2.text = "In Theaters"
-        title2.font = title2.font.withSize(20)
+        title2.font = UIFont.boldSystemFont(ofSize: 23)
         title2.textColor = .white
         return title2
     }()
@@ -45,7 +37,7 @@ class HomeViewController: UIViewController {
         let title3 = UILabel()
         title3.translatesAutoresizingMaskIntoConstraints = false
         title3.text = "Coming Soon"
-        title3.font = title3.font.withSize(20)
+        title3.font = UIFont.boldSystemFont(ofSize: 23)
         title3.textColor = .white
         return title3
     }()
@@ -54,7 +46,7 @@ class HomeViewController: UIViewController {
         let title4 = UILabel()
         title4.translatesAutoresizingMaskIntoConstraints = false
         title4.text = "Top Rated"
-        title4.font = title4.font.withSize(20)
+        title4.font = UIFont.boldSystemFont(ofSize: 23)
         title4.textColor = .white
         return title4
     }()
@@ -76,7 +68,6 @@ class HomeViewController: UIViewController {
         
         addConstraints()
        
-               
         self.collectionViewA.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCellA")
         self.collectionViewB.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCellB")
         self.collectionViewC.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCellC")
@@ -102,14 +93,12 @@ class HomeViewController: UIViewController {
         self.collectionViewA.dataSource = self
         self.collectionViewB.dataSource = self
         self.collectionViewC.dataSource = self
-        self.collectionViewD.dataSource = self
-        
-        
+        self.collectionViewD.dataSource = self 
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 200)
+        scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 400)
     }
     
     override func loadView() {
@@ -151,12 +140,9 @@ class HomeViewController: UIViewController {
     
     private func addConstraints(){
         var constraints = [NSLayoutConstraint]()
-        
         //Add constraints
         
         //ScrollView
-        
-        
         constraints.append(scrollView.leftAnchor.constraint(equalTo: view.leftAnchor))
         constraints.append(scrollView.topAnchor.constraint(equalTo: view.topAnchor))
         constraints.append(scrollView.rightAnchor.constraint(equalTo: view.rightAnchor))
@@ -168,22 +154,19 @@ class HomeViewController: UIViewController {
         constraints.append(title1.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
        
         //Title2
-        constraints.append(title2.topAnchor.constraint(equalTo: collectionViewA.bottomAnchor, constant: 10))
+        constraints.append(title2.topAnchor.constraint(equalTo: collectionViewA.bottomAnchor, constant: 30))
         constraints.append(title2.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(title2.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
-        
         //Title3
-        constraints.append(title3.topAnchor.constraint(equalTo: collectionViewB.bottomAnchor, constant: 10))
+        constraints.append(title3.topAnchor.constraint(equalTo: collectionViewB.bottomAnchor, constant: 30))
         constraints.append(title3.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(title3.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
-        
         //Title4
-        constraints.append(title4.topAnchor.constraint(equalTo: collectionViewC.bottomAnchor, constant: 10))
+        constraints.append(title4.topAnchor.constraint(equalTo: collectionViewC.bottomAnchor, constant: 30))
         constraints.append(title4.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(title4.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
-        
         
         
         // CollectionViewA
@@ -191,28 +174,26 @@ class HomeViewController: UIViewController {
         constraints.append(collectionViewA.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewA.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
-        constraints.append(collectionViewA.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
+        constraints.append(collectionViewA.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
 
         // CollectionViewB
         constraints.append(collectionViewB.topAnchor.constraint(equalTo: title2.bottomAnchor, constant: 10))
         constraints.append(collectionViewB.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewB.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
-        constraints.append(collectionViewB.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
+        constraints.append(collectionViewB.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
         
         // CollectionViewC
         constraints.append(collectionViewC.topAnchor.constraint(equalTo: title3.topAnchor, constant: 30))
         constraints.append(collectionViewC.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewC.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
-        constraints.append(collectionViewC.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
+        constraints.append(collectionViewC.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
 
         // CollectionViewD
         constraints.append(collectionViewD.topAnchor.constraint(equalTo: title4.topAnchor, constant: 30))
         constraints.append(collectionViewD.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewD.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
-        constraints.append(collectionViewD.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 20))
-        
-         
-               
+        constraints.append(collectionViewD.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
+   
         //Activate (applying)
         NSLayoutConstraint.activate(constraints)
     }
@@ -224,7 +205,6 @@ extension HomeViewController: UICollectionViewDataSource{
         data.count
     }
    
-    
     // == is a heavy operation use tags instead
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -232,20 +212,29 @@ extension HomeViewController: UICollectionViewDataSource{
             let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellA", for: indexPath) as! MovieCollectionViewCell
             let data = self.data[indexPath.item]
             cellA.backgroundColor = .red
-            cellA.textLabel.text = String(data)
+            
+            cellA.imageView.image = UIImage(systemName: "heart.fill")
+            cellA.layer.cornerRadius = 20
+            cellA.layer.masksToBounds = true
             return cellA
             
         }else if collectionView == collectionViewB {
             let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellB", for: indexPath) as! MovieCollectionViewCell
             let data = self.data[indexPath.item]
             cellB.backgroundColor = .blue
-            cellB.textLabel.text = String(data)
+           
+            cellB.imageView.image = UIImage(systemName: "heart.fill")
+            cellB.layer.cornerRadius = 20
+            cellB.layer.masksToBounds = true
             return cellB
         } else if collectionView == collectionViewC {
             let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellC", for: indexPath) as! MovieCollectionViewCell
             let data = self.data[indexPath.item]
             cellC.backgroundColor = .green
-            cellC.textLabel.text = String(data)
+            
+            cellC.imageView.image = UIImage(systemName: "heart.fill")
+            cellC.layer.cornerRadius = 20
+            cellC.layer.masksToBounds = true
             return cellC
         }
 
@@ -253,7 +242,10 @@ extension HomeViewController: UICollectionViewDataSource{
             let cellD = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellD", for: indexPath) as! MovieCollectionViewCell
             let data = self.data[indexPath.item]
             cellD.backgroundColor = .orange
-            cellD.textLabel.text = String(data)
+            
+            cellD.imageView.image = UIImage(systemName: "heart.fill")
+            cellD.layer.cornerRadius = 20
+            cellD.layer.masksToBounds = true
             return cellD
         }
     }
@@ -267,7 +259,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                             layout collectionViewLayout: UICollectionViewLayout,
                             sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/2.5, height: collectionView.frame.width/2 + 20)
+        return CGSize(width: collectionView.frame.width/2.5 + 10, height: collectionView.frame.width/2 + 50)
         }
     
 }
