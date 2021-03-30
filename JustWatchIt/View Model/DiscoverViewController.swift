@@ -1,10 +1,3 @@
-//
-//  DiscoverViewController.swift
-//  JustWatchIt
-//
-//  Created by Lawrence Dizon on 3/21/21.
-//
-
 import UIKit
 
 class DiscoverViewController: UIViewController {

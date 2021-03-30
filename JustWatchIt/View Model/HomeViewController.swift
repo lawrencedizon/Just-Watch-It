@@ -147,7 +147,7 @@ class HomeViewController: UIViewController {
         constraints.append(scrollView.leftAnchor.constraint(equalTo: view.leftAnchor))
         constraints.append(scrollView.topAnchor.constraint(equalTo: view.topAnchor))
         constraints.append(scrollView.rightAnchor.constraint(equalTo: view.rightAnchor))
-        constraints.append(scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
+        constraints.append(scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
         
         //Title1
         constraints.append(title1.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20))
@@ -188,12 +188,15 @@ class HomeViewController: UIViewController {
         constraints.append(collectionViewC.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewC.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewC.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
+        constraints.append(collectionViewC.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
 
         // CollectionViewD
         constraints.append(collectionViewD.topAnchor.constraint(equalTo: title4.topAnchor, constant: 30))
         constraints.append(collectionViewD.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewD.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewD.heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
+        
+      
    
         //Activate (applying)
         NSLayoutConstraint.activate(constraints)
