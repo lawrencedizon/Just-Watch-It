@@ -58,6 +58,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("HomeVC loaded")
+        
         view.backgroundColor = .black
         
         view.addSubview(scrollView)
