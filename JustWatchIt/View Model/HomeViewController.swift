@@ -56,7 +56,11 @@ class HomeViewController: UIViewController {
     //MARK: - View LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("HomeVC loaded")
+        
+        //FIXME: - API Testing
+        let networkManager = NetworkManager()
+        networkManager.fetchNowPlayingFilms()
+        //
         
         view.backgroundColor = .black
         

@@ -2,7 +2,9 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
      static var identifier: String = "Cell"
-     weak var imageView: UIImageView!
+    
+    var films = [String]()
+    weak var imageView: UIImageView!
     
     override init(frame: CGRect){
         super.init(frame: frame)
