@@ -5,7 +5,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     //MARK: - Properties
     var searchBar: UISearchBar!
     
-    //MARK: - ViewController Lifecycle States
+    //MARK: - ViewController Lifecycle Events
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black

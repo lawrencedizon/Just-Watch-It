@@ -1,13 +1,12 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    private weak var collectionViewA: UICollectionView!
+    private weak var collectionViewB: UICollectionView!
+    private weak var collectionViewC: UICollectionView!
+    private weak var collectionViewD: UICollectionView!
     
-    weak var collectionViewA: UICollectionView!
-    weak var collectionViewB: UICollectionView!
-    weak var collectionViewC: UICollectionView!
-    weak var collectionViewD: UICollectionView!
-    
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .black
@@ -217,7 +216,7 @@ extension HomeViewController: UICollectionViewDataSource{
             let data = self.data[indexPath.item]
             cellA.backgroundColor = .red
             
-            cellA.imageView.image = UIImage(systemName: "heart.fill")
+            cellA.imageView.image = UIImage(named: "movie.png")
             cellA.layer.cornerRadius = 20
             cellA.layer.masksToBounds = true
             return cellA
@@ -227,7 +226,7 @@ extension HomeViewController: UICollectionViewDataSource{
             let data = self.data[indexPath.item]
             cellB.backgroundColor = .blue
            
-            cellB.imageView.image = UIImage(systemName: "heart.fill")
+            cellB.imageView.image = UIImage(named: "movie2.jpeg")
             cellB.layer.cornerRadius = 20
             cellB.layer.masksToBounds = true
             return cellB
@@ -257,6 +256,7 @@ extension HomeViewController: UICollectionViewDataSource{
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //TODO: - What happens when someone clicks on a cell
      }
 }
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
