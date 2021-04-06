@@ -1,6 +1,13 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    
+    // Movie data
+    var popularMoviesArray    = [Movie]()
+    var inTheatersMoviesArray = [Movie]()
+    var comingSoonMoviesArray = [Movie]()
+    var topRatedMoviesArray   = [Movie]()
+    
     private weak var collectionViewA: UICollectionView!
     private weak var collectionViewB: UICollectionView!
     private weak var collectionViewC: UICollectionView!
@@ -58,8 +65,28 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         //FIXME: - API Testing
-        let networkManager = NetworkManager()
-        networkManager.fetchNowPlayingFilms()
+        let networkManager1 = NetworkManager()
+        networkManager1.fetchFilms(type: .popular)
+        let networkManager2 = NetworkManager()
+        networkManager2.fetchFilms(type: .nowPlaying)
+
+        let networkManager3 = NetworkManager()
+        networkManager3.fetchFilms(type: .comingSoon)
+
+        let networkManager4 = NetworkManager()
+
+        networkManager4.fetchFilms(type: .topRated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            
+            self.popularMoviesArray = networkManager1.movies
+            print(self.popularMoviesArray.count)
+            self.inTheatersMoviesArray = networkManager2.movies
+            self.comingSoonMoviesArray = networkManager3.movies
+            self.topRatedMoviesArray = networkManager4.movies
+        }
+        
+       
         //
         
         view.backgroundColor = .black
@@ -209,7 +236,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        data.count
+        20
     }
    
     // == is a heavy operation use tags instead
@@ -219,29 +246,38 @@ extension HomeViewController: UICollectionViewDataSource{
             let cellA = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellA", for: indexPath) as! MovieCollectionViewCell
             let data = self.data[indexPath.item]
             cellA.backgroundColor = .red
-            
-            cellA.imageView.image = UIImage(named: "movie.png")
             cellA.layer.cornerRadius = 20
             cellA.layer.masksToBounds = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                cellA.imageView?.image = self.popularMoviesArray[indexPath.row].thumbnail
+            }
             return cellA
             
         }else if collectionView == collectionViewB {
             let cellB = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellB", for: indexPath) as! MovieCollectionViewCell
             let data = self.data[indexPath.item]
             cellB.backgroundColor = .blue
-           
-            cellB.imageView.image = UIImage(named: "movie2.jpeg")
+            
+            
             cellB.layer.cornerRadius = 20
             cellB.layer.masksToBounds = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                cellB.imageView.image = self.inTheatersMoviesArray[indexPath.row].thumbnail
+            }
             return cellB
         } else if collectionView == collectionViewC {
             let cellC = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCellC", for: indexPath) as! MovieCollectionViewCell
             let data = self.data[indexPath.item]
             cellC.backgroundColor = .green
             
-            cellC.imageView.image = UIImage(systemName: "heart.fill")
+            
             cellC.layer.cornerRadius = 20
             cellC.layer.masksToBounds = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                cellC.imageView.image = self.comingSoonMoviesArray[indexPath.row].thumbnail
+            }
             return cellC
         }
 
@@ -250,10 +286,14 @@ extension HomeViewController: UICollectionViewDataSource{
             let data = self.data[indexPath.item]
             cellD.backgroundColor = .orange
             
-            cellD.imageView.image = UIImage(systemName: "heart.fill")
+            
             cellD.layer.cornerRadius = 20
             cellD.layer.masksToBounds = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                cellD.imageView.image = self.topRatedMoviesArray[indexPath.row].thumbnail
+            }
             return cellD
+            
         }
     }
 }

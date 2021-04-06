@@ -1,9 +1,8 @@
 import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
-     static var identifier: String = "Cell"
+    static var identifier: String = "Cell"
     
-    var films = [String]()
     weak var imageView: UIImageView!
     
     override init(frame: CGRect){
@@ -13,6 +12,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
         
         imageV.contentMode = .scaleAspectFill
         imageV.clipsToBounds = false
+        self.imageView = imageV
         
         //imageV.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(imageV)
@@ -24,7 +24,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
 //
 //        ])
         
-        self.imageView = imageV
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,6 +33,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
 
        override func prepareForReuse() {
            super.prepareForReuse()
+        
        }
 
        

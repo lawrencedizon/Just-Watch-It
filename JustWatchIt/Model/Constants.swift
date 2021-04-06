@@ -10,3 +10,7 @@ import Foundation
 struct Constants {
     static var API_KEY = ""
 }
+
+enum ListTypes {
+    case popular, nowPlaying, comingSoon, topRated
+}
