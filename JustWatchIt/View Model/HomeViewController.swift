@@ -60,9 +60,21 @@ class HomeViewController: UIViewController {
     
     var data: [Int] = Array(0..<100)
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     //MARK: - View LifeCycles
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionViewA.bounces = false
+        collectionViewB.bounces = false
+        collectionViewC.bounces = false
+        collectionViewD.bounces = false
+        
         
         //FIXME: - API Testing
         let networkManager1 = NetworkManager()
@@ -251,6 +263,7 @@ extension HomeViewController: UICollectionViewDataSource{
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 4){
                 cellA.imageView?.image = self.popularMoviesArray[indexPath.row].thumbnail
+                
             }
             return cellA
             
@@ -290,7 +303,7 @@ extension HomeViewController: UICollectionViewDataSource{
             cellD.layer.cornerRadius = 20
             cellD.layer.masksToBounds = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 4){
-                cellD.imageView.image = self.topRatedMoviesArray[indexPath.row].thumbnail
+                    cellD.imageView.image = self.topRatedMoviesArray[indexPath.row].thumbnail
             }
             return cellD
             

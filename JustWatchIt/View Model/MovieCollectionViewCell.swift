@@ -2,7 +2,6 @@ import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
     static var identifier: String = "Cell"
-    
     weak var imageView: UIImageView!
     
     override init(frame: CGRect){
@@ -16,15 +15,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
         
         //imageV.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.addSubview(imageV)
-        
-//        NSLayoutConstraint.activate([
-//        self.contentView.centerXAnchor.constraint(equalTo: imageV.centerXAnchor),
-//        self.contentView.centerYAnchor.constraint(equalTo: imageV.centerYAnchor),
-//
-//
-//        ])
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,7 +22,9 @@ class MovieCollectionViewCell: UICollectionViewCell {
        }
 
        override func prepareForReuse() {
-           super.prepareForReuse()
+        super.prepareForReuse()
+        imageView?.image = nil
+        
         
        }
 
