@@ -33,7 +33,7 @@ final class NetworkManager {
             fetchURL = domainURLString + "movie/top_rated?api_key=\(Constants.API_KEY)&language=en-US&page=1"
         }
         
-        print(fetchURL)
+        
         guard let url = URL(string: fetchURL) else {
             print("Failed to fetch using this url")
             return
@@ -49,7 +49,7 @@ final class NetworkManager {
             
             // HANDLE RESPONSE
             guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                print("Error with the response, unexpected status code: \(response)")
+                print("Error with the response, unexpected status code: \(String(describing: response))")
                 return
             }
             
