@@ -18,6 +18,7 @@ final class NetworkManager {
     private let domainURLString = "https://api.themoviedb.org/3/"
     
     
+    
     func fetchFilms(type: ListTypes){
         var fetchURL = ""
         
@@ -27,18 +28,16 @@ final class NetworkManager {
         case .nowPlaying:
             fetchURL = domainURLString + "movie/now_playing?api_key=\(Constants.API_KEY)&language=en-US&page=1"
             
-        case .comingSoon:
+        case .upcoming:
             fetchURL = domainURLString + "movie/upcoming?api_key=\(Constants.API_KEY)&language=en-US&page=1"
         case .topRated:
             fetchURL = domainURLString + "movie/top_rated?api_key=\(Constants.API_KEY)&language=en-US&page=1"
         }
-        
-        
+
         guard let url = URL(string: fetchURL) else {
             print("Failed to fetch using this url")
             return
         }
-        
         let task = URLSession.shared.dataTask(with: url, completionHandler:  { [weak self] (data, response, error) in
             
             // HANDLE ERROR
@@ -63,6 +62,8 @@ final class NetworkManager {
                         
                         guard let imageData = image else { return }
                         self?.movies.append(Movie(title: item.original_title,thumbnail: UIImage(data: imageData)))
+                        
+                        
                     }
                 }
         

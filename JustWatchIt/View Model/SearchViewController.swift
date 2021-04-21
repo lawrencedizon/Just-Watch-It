@@ -17,7 +17,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         searchBar = UISearchBar()
         searchBar.frame = CGRect(x: 0, y:50, width: view.bounds.size.width, height: 70)
         searchBar.delegate = self
-        searchBar.searchBarStyle = UISearchBar.Style.default
+        searchBar.searchBarStyle = UISearchBar.Style.minimal
         searchBar.placeholder = "Search a movie"
         view.addSubview(searchBar)
     }

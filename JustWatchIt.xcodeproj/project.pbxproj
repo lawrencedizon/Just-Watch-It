@@ -89,18 +89,10 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		9035CFA2261CCF6C00BE4B42 /* JustWatchItTests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = JustWatchItTests;
-			sourceTree = "<group>";
-		};
 		90733C6E25C8E445006717D2 = {
 			isa = PBXGroup;
 			children = (
 				90733C7925C8E445006717D2 /* JustWatchIt */,
-				9035CFA2261CCF6C00BE4B42 /* JustWatchItTests */,
 				90733C7825C8E445006717D2 /* Products */,
 			);
 			sourceTree = "<group>";

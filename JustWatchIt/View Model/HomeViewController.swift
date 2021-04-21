@@ -12,7 +12,7 @@ class HomeViewController: UIViewController {
            return scrollView
        }()
 
-    private var movieArray: [[Movie]] = {
+    var movieArray: [[Movie]] = {
     var moviesArray = [[Movie]]()
         for index in 0..<numberOfCategories{
             let movieArray = [Movie]()
@@ -32,8 +32,8 @@ class HomeViewController: UIViewController {
             titleArray.append(title)
         }
         titleArray[0].text = "Popular"
-        titleArray[1].text = "In Theaters"
-        titleArray[2].text = "Coming Soon"
+        titleArray[1].text = "Now Playing"
+        titleArray[2].text = "Upcoming"
         titleArray[3].text = "Top Rated"
         return titleArray
     }()
@@ -82,26 +82,8 @@ class HomeViewController: UIViewController {
             collectionView.dataSource = self
             scrollView.addSubview(collectionView)
         }
-        
         addLayoutConstraints()
-        
-        // API Network calls
-        let networkManager1 = NetworkManager()
-        networkManager1.fetchFilms(type: .popular)
-        let networkManager2 = NetworkManager()
-        networkManager2.fetchFilms(type: .nowPlaying)
-        let networkManager3 = NetworkManager()
-        networkManager3.fetchFilms(type: .comingSoon)
-        let networkManager4 = NetworkManager()
-        networkManager4.fetchFilms(type: .topRated)
-        
-        // Assign fetched API movie data to our movieArray
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            self.movieArray[0] = networkManager1.movies
-            self.movieArray[1] = networkManager2.movies
-            self.movieArray[2] = networkManager3.movies
-            self.movieArray[3] = networkManager4.movies
-        }
+        fetchAllMovies()
     }
     
     override func viewDidLayoutSubviews() {
@@ -109,6 +91,42 @@ class HomeViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 400)
     }
     
+    //MARK: - API Management
+    func fetchAllMovies(){
+        var networkManagerArray = [NetworkManager]()
+        
+        for index in 0..<HomeViewController.numberOfCategories{
+            let networkManager = NetworkManager()
+            switch(index){
+                case 0:
+                    networkManager.fetchFilms(type: .popular)
+                case 1:
+                    networkManager.fetchFilms(type: .nowPlaying)
+                case 2:
+                    networkManager.fetchFilms(type: .upcoming)
+                case 3:
+                    networkManager.fetchFilms(type: .topRated)
+                default:
+                    break
+            }
+            networkManagerArray.append(networkManager)
+        }
+ 
+        // Assign fetched API movie data to our movieArray to display in our collectionView
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            for index in 0..<HomeViewController.numberOfCategories{
+                self.movieArray[index] = networkManagerArray[index].movies.shuffled()
+            }
+            
+            DispatchQueue.main.async {
+                for collectionView in self.collectionViewArray{
+                    collectionView.reloadData()
+                }
+            }
+           
+        }
+    }
+   
     //MARK: - User Interface
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -155,14 +173,14 @@ class HomeViewController: UIViewController {
         constraints.append(collectionViewArray[1].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
         
         // CollectionView2
-        constraints.append(collectionViewArray[2].topAnchor.constraint(equalTo: titleArray[2].topAnchor, constant: 30))
+        constraints.append(collectionViewArray[2].topAnchor.constraint(equalTo: titleArray[2].topAnchor, constant: 35))
         constraints.append(collectionViewArray[2].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[2].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[2].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
         constraints.append(collectionViewArray[2].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
 
         // CollectionView3
-        constraints.append(collectionViewArray[3].topAnchor.constraint(equalTo: titleArray[3].topAnchor, constant: 30))
+        constraints.append(collectionViewArray[3].topAnchor.constraint(equalTo: titleArray[3].topAnchor, constant: 35))
         constraints.append(collectionViewArray[3].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[3].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[3].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
@@ -177,40 +195,17 @@ extension HomeViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        10
+        movieArray[collectionView.tag].count
     }
    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
-        switch collectionView.tag {
-            case 0:
-                cell.backgroundColor = .red
-                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
-                    cell.imageView?.image = self.movieArray[collectionView.tag][indexPath.row].thumbnail
-                }
-                return cell
-            case 1:
-                cell.backgroundColor = .blue
-                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
-                    cell.imageView.image = self.movieArray[collectionView.tag][indexPath.row].thumbnail
-                }
-                return cell
-            case 2:
-                cell.backgroundColor = .green
-                DispatchQueue.main.asyncAfter(deadline: .now() + 7){
-                    cell.imageView.image = self.movieArray[collectionView.tag][indexPath.row].thumbnail
-                }
-                return cell
-            case 3:
-                cell.backgroundColor = .orange
-                DispatchQueue.main.asyncAfter(deadline: .now() + 7){
-                    cell.imageView.image = self.movieArray[collectionView.tag][indexPath.row].thumbnail
-                }
-                return cell
-            default:
-                return MovieCollectionViewCell()
-        }
+
+            if let image = self.movieArray[collectionView.tag][indexPath.row].thumbnail{
+                cell.imageView.image = image
+            }
+            return cell
     }
 }
 
