@@ -2,7 +2,6 @@ import UIKit
 
 class HomeViewController: UIViewController {
     //MARK: - Instance Variables
-    private static let numberOfCategories = 4
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -14,7 +13,7 @@ class HomeViewController: UIViewController {
 
     var movieArray: [[Movie]] = {
     var moviesArray = [[Movie]]()
-        for index in 0..<numberOfCategories{
+        for index in 0..<Constants.numberOfMovieLists{
             let movieArray = [Movie]()
             moviesArray.append(movieArray)
         }
@@ -23,10 +22,9 @@ class HomeViewController: UIViewController {
     
     let titleArray: [UILabel] = {
         var titleArray = [UILabel]()
-        for index in 0..<numberOfCategories{
+        for index in 0..<Constants.numberOfMovieLists{
             let title = UILabel()
             title.translatesAutoresizingMaskIntoConstraints = false
-            title.text = ""
             title.font = UIFont.boldSystemFont(ofSize: 23)
             title.textColor = .white
             titleArray.append(title)
@@ -41,7 +39,7 @@ class HomeViewController: UIViewController {
     let collectionViewArray: [UICollectionView] = {
         var collectionViewArray = [UICollectionView]()
         
-        for index in 0..<numberOfCategories {
+        for index in 0..<Constants.numberOfMovieLists {
             //Setup collectionView layout
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
@@ -95,17 +93,17 @@ class HomeViewController: UIViewController {
     func fetchAllMovies(){
         var networkManagerArray = [NetworkManager]()
         
-        for index in 0..<HomeViewController.numberOfCategories{
+        for index in 0..<Constants.numberOfMovieLists{
             let networkManager = NetworkManager()
             switch(index){
                 case 0:
-                    networkManager.fetchFilms(type: .popular)
+                    networkManager.fetchMovies(type: .popular)
                 case 1:
-                    networkManager.fetchFilms(type: .nowPlaying)
+                    networkManager.fetchMovies(type: .nowPlaying)
                 case 2:
-                    networkManager.fetchFilms(type: .upcoming)
+                    networkManager.fetchMovies(type: .upcoming)
                 case 3:
-                    networkManager.fetchFilms(type: .topRated)
+                    networkManager.fetchMovies(type: .topRated)
                 default:
                     break
             }
@@ -114,8 +112,8 @@ class HomeViewController: UIViewController {
  
         // Assign fetched API movie data to our movieArray to display in our collectionView
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            for index in 0..<HomeViewController.numberOfCategories{
-                self.movieArray[index] = networkManagerArray[index].movies.shuffled()
+            for index in 0..<Constants.numberOfMovieLists{
+                self.movieArray[index] = networkManagerArray[index].fetchedMovies.shuffled()
             }
             
             DispatchQueue.main.async {
@@ -123,7 +121,6 @@ class HomeViewController: UIViewController {
                     collectionView.reloadData()
                 }
             }
-           
         }
     }
    
