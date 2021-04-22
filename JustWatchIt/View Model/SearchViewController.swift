@@ -3,10 +3,10 @@ import UIKit
 /// SearchViewController - search a Movie and display the results into a TableView
 class SearchViewController: UIViewController, UISearchBarDelegate {
     //MARK: - Properties
-    var searchBar: UISearchBar!
-    var tableView: UITableView!
+    private var searchBar: UISearchBar!
+    private var tableView: UITableView!
     //Test Data
-    var data = [String]()
+    private var data = [String]()
     
     //MARK: - ViewController Lifecycle Events
     override func loadView() {
@@ -24,7 +24,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         addLayoutConstraints()
     }
     //MARK: - User Interface
-    func createSearchBar(){
+    private func createSearchBar(){
         searchBar = UISearchBar()
         searchBar.delegate = self
         searchBar.searchBarStyle = UISearchBar.Style.minimal
@@ -32,11 +32,13 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
     }
-    func createTableView(){
+    private func createTableView(){
         tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .black
         view.addSubview(tableView)
     }
     
@@ -66,7 +68,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath)
+        cell.textLabel?.text = data[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        150
     }
     
     

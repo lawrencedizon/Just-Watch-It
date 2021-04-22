@@ -1,5 +1,3 @@
-import Foundation
-
 struct Constants {
     static var API_KEY = ""
     static let numberOfMovieLists = 4
