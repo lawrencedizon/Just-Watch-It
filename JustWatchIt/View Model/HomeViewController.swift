@@ -1,7 +1,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    //MARK: - Instance Variables
+    //MARK: - Properties
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
