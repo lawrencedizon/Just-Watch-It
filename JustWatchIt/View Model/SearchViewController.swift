@@ -5,6 +5,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     //MARK: - Properties
     private var searchBar: UISearchBar!
     private var tableView: UITableView!
+    private var searchResults = [Movie]()
+    
     //Test Data
     private var data = [String]()
     
@@ -16,13 +18,24 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         createSearchBar()
         createTableView()
         
-        //Test Data
-        for x in 0...100 {
-            data.append("Some Data \(x)")
+        //API Network call
+        let networkManager = NetworkManager()
+        networkManager.fetchMovies(query: "frozen", type: .search)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                self.searchResults = networkManager.fetchedMovies
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
+        
         
         addLayoutConstraints()
     }
+    
+        
+        
+    
     //MARK: - User Interface
     private func createSearchBar(){
         searchBar = UISearchBar()
@@ -64,17 +77,19 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
 //MARK: - TableView Delegate Functions
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        data.count
+        searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath)
-        cell.textLabel?.text = data[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell
+        let movie = self.searchResults[indexPath.row]
+        cell.posterImageView.image = movie.thumbnail
+        cell.movieTitleLabel.text = movie.title + " (\(movie.year))"
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        150
+        220
     }
     
     

@@ -4,5 +4,5 @@ struct Constants {
 }
 
 enum ListTypes {
-    case popular, nowPlaying, upcoming, topRated
+    case popular, nowPlaying, upcoming, topRated, search
 }

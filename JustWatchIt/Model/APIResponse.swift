@@ -9,14 +9,15 @@ struct NowPlayingResponse: Codable{
 struct NowPlayingItem: Codable{
     let original_title: String
     let poster_path: String
+    let release_date: String
 }
 
 struct Movie {
     let title: String
     var thumbnail: UIImage?
-    let year: Int?
+    let year: String
     
-    init(title: String, thumbnail: UIImage? = nil, year: Int? = nil){
+    init(title: String, thumbnail: UIImage? = nil, year: String){
         self.title = title
         self.thumbnail = thumbnail
         self.year = year

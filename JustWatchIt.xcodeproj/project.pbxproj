@@ -75,11 +75,11 @@
 		900BD0F92602A656003EFBF8 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				900BD0EC2602A435003EFBF8 /* TabBarViewController.swift */,
 				900BD0EF2602A44A003EFBF8 /* HomeViewController.swift */,
 				90E854AA260830F20060ABCD /* DiscoverViewController.swift */,
-				900BD0EC2602A435003EFBF8 /* TabBarViewController.swift */,
-				90E854A626082C360060ABCD /* WatchListViewController.swift */,
 				900BD0F22602A453003EFBF8 /* SearchViewController.swift */,
+				90E854A626082C360060ABCD /* WatchListViewController.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";

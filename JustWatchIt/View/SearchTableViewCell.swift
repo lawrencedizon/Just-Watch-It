@@ -2,11 +2,29 @@ import UIKit
 
 class SearchTableViewCell: UITableViewCell {
     static let identifier: String = "SearchTableViewCell"
+    
+    let posterImageView: UIImageView = {
+        let imageView = UIImageView(frame: CGRect(x: 10, y:10, width: 140, height: 200))
+        imageView.layer.cornerRadius = 10
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    let movieTitleLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 170, y:5, width: 200, height: 44))
+        label.textColor = .white
+        label.font = label.font.withSize(17)
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
  
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .black
-        textLabel?.textColor = .white
+        
+        self.contentView.addSubview(posterImageView)
+        self.contentView.addSubview(movieTitleLabel)
     }
     
     required init?(coder: NSCoder) {

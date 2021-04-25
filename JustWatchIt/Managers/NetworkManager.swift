@@ -8,7 +8,7 @@ final class NetworkManager {
     private let domainURLString = "https://api.themoviedb.org/3/"
 
     // MARK: - API Calling Functions
-    func fetchMovies(type: ListTypes){
+    func fetchMovies(query: String = "", type: ListTypes){
         var fetchURL = ""
         
         switch type {
@@ -21,6 +21,9 @@ final class NetworkManager {
                 fetchURL = domainURLString + "movie/upcoming?api_key=\(Constants.API_KEY)&language=en-US&page=1"
             case .topRated:
                 fetchURL = domainURLString + "movie/top_rated?api_key=\(Constants.API_KEY)&language=en-US&page=1"
+            case .search:
+                fetchURL = domainURLString + "search/movie?api_key=\(Constants.API_KEY)&language=en-US&query=\(query)&page=1&include_adult=false"
+                print(fetchURL)
         }
 
         guard let url = URL(string: fetchURL) else { return }
@@ -46,11 +49,13 @@ final class NetworkManager {
                     if let imageURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"){
                         let image = try? Data(contentsOf: imageURL)
                         guard let imageData = image else { return }
-                        self?.fetchedMovies.append(Movie(title: item.original_title,thumbnail: UIImage(data: imageData)))
+                        self?.fetchedMovies.append(Movie(title: item.original_title,thumbnail: UIImage(data: imageData), year: item.release_date))
                     }
                 }
             }
         })
         task.resume()
     }
+    
+    
 }
