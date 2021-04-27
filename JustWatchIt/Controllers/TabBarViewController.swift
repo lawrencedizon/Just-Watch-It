@@ -1,11 +1,10 @@
 import UIKit
 
-/// TabBar View Controller -  display and navigate to commonly accessed ViewControllers
+/// TabBarViewController -  display and navigate to commonly accessed ViewControllers
 class TabBarViewController: UITabBarController {
     //MARK: - ViewController LifeCycle States
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setTransparentTabBar()
         customizeTabBarColors()
         setupTabBarList()
@@ -27,16 +26,13 @@ class TabBarViewController: UITabBarController {
         let homeVC = HomeViewController()
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
         
-        let discoverVC = DiscoverViewController()
-        discoverVC.tabBarItem = UITabBarItem(title: "Discover", image: UIImage(systemName: "star.fill"), tag: 1)
-        
         let searchVC = SearchViewController()
-        searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
+        searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
         
         let watchListVC = WatchListViewController()
-        watchListVC.tabBarItem = UITabBarItem(title: "Watch List", image: UIImage(systemName: "film.fill"), tag: 3)
+        watchListVC.tabBarItem = UITabBarItem(title: "Watch List", image: UIImage(systemName: "film.fill"), tag: 2)
         
-        let tabBarList = [homeVC,discoverVC, searchVC,watchListVC]
+        let tabBarList = [homeVC, searchVC,watchListVC]
         viewControllers = tabBarList
     }
 }

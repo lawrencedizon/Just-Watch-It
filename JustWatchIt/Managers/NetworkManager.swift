@@ -43,16 +43,26 @@ final class NetworkManager {
             }
             
             //Data
-            if let data = data {
-                let nowPlayingResponse = try? JSONDecoder().decode(NowPlayingResponse.self, from: data)
-                for item in nowPlayingResponse!.results{
-                    if let imageURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"){
-                        let image = try? Data(contentsOf: imageURL)
-                        guard let imageData = image else { return }
-                        self?.fetchedMovies.append(Movie(title: item.original_title,thumbnail: UIImage(data: imageData), year: item.release_date))
+            guard let data = data else {
+                print("We failed to get any data")
+                return
+            }
+            
+            if let nowPlayingResponse = try? JSONDecoder().decode(NowPlayingResponse.self, from: data){
+                if nowPlayingResponse.results.isEmpty{
+                    print("We did not decode any movies")
+                }else{
+                    for item in nowPlayingResponse.results{
+                        if let imageURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"){
+                            let image = try? Data(contentsOf: imageURL)
+                            guard let imageData = image else { return }
+                            self?.fetchedMovies.append(Movie(title: item.original_title,thumbnail: UIImage(data: imageData), year: item.release_date))
+                        }
                     }
                 }
+                
             }
+            
         })
         task.resume()
     }

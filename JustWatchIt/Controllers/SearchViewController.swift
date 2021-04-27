@@ -1,6 +1,6 @@
 import UIKit
 
-/// SearchViewController - search a Movie and display the results into a TableView
+/// SearchViewController - allows the user to search a movie and display the searched results into a TableView
 class SearchViewController: UIViewController, UISearchBarDelegate {
     //MARK: - Properties
     private var searchBar: UISearchBar!

@@ -25,7 +25,7 @@ class HomeViewController: UIViewController {
         for index in 0..<Constants.numberOfMovieLists{
             let title = UILabel()
             title.translatesAutoresizingMaskIntoConstraints = false
-            title.font = UIFont.boldSystemFont(ofSize: 23)
+            title.font = UIFont(name: "Helvetica", size: 24)
             title.textColor = .white
             titleArray.append(title)
         }
@@ -66,7 +66,7 @@ class HomeViewController: UIViewController {
         super.loadView()
         view.backgroundColor = .black
     
-        // Add ScrollView to main View
+        // Add ScrollView to main view
         view.addSubview(scrollView)
         
         //Add titles to ScrollView
@@ -74,7 +74,7 @@ class HomeViewController: UIViewController {
             scrollView.addSubview(title)
         }
         
-        //Add collectionViews to ScrollView
+        //Add collectionViews to scrollView
         for collectionView in collectionViewArray {
             collectionView.delegate = self
             collectionView.dataSource = self
