@@ -209,7 +209,8 @@ extension HomeViewController: UICollectionViewDataSource{
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        //TODO: - What happens when someone clicks on a cell
+        let movieDetailVC = MovieDetailViewController()
+        navigationController?.pushViewController(movieDetailVC, animated: false)
      }
 }
 extension HomeViewController: UICollectionViewDelegateFlowLayout {

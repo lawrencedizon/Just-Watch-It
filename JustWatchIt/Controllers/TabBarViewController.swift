@@ -23,7 +23,10 @@ class TabBarViewController: UITabBarController {
     }
     
     func setupTabBarList(){
+        let navBarVC = UINavigationController()
         let homeVC = HomeViewController()
+        navBarVC.viewControllers = [homeVC]
+        
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
         
         let searchVC = SearchViewController()
@@ -32,7 +35,7 @@ class TabBarViewController: UITabBarController {
         let watchListVC = WatchListViewController()
         watchListVC.tabBarItem = UITabBarItem(title: "Watch List", image: UIImage(systemName: "film.fill"), tag: 2)
         
-        let tabBarList = [homeVC, searchVC,watchListVC]
+        let tabBarList = [navBarVC, searchVC, watchListVC]
         viewControllers = tabBarList
     }
 }
