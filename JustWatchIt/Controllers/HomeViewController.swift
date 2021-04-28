@@ -111,7 +111,7 @@ class HomeViewController: UIViewController {
         }
  
         // Assign fetched API movie data to our movieArray to display in our collectionView
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             for index in 0..<Constants.numberOfMovieLists{
                 self.movieArray[index] = networkManagerArray[index].fetchedMovies.shuffled()
             }
@@ -199,8 +199,8 @@ extension HomeViewController: UICollectionViewDataSource{
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
 
-            if let image = self.movieArray[collectionView.tag][indexPath.row].thumbnail{
-                cell.imageView.image = image
+            if let image = self.movieArray[collectionView.tag][indexPath.row].posterImage{
+                cell.posterImage.image = image
             }
             return cell
     }

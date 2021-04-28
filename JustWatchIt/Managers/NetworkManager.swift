@@ -53,10 +53,12 @@ final class NetworkManager {
                     print("We did not decode any movies")
                 }else{
                     for item in nowPlayingResponse.results{
-                        if let imageURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"){
-                            let image = try? Data(contentsOf: imageURL)
-                            guard let imageData = image else { return }
-                            self?.fetchedMovies.append(Movie(title: item.original_title,thumbnail: UIImage(data: imageData), year: item.release_date))
+                        if let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"){
+                            if let backDropURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.backdrop_path)"){
+                                guard let posterImage = try? Data(contentsOf: posterURL) else { return }
+                                guard let backDropImage = try? Data(contentsOf: backDropURL) else { return }
+                                self?.fetchedMovies.append(Movie(title: item.original_title,posterImage: UIImage(data: posterImage), backdropImage: UIImage(data: backDropImage), year: item.release_date))
+                            }
                         }
                     }
                 }

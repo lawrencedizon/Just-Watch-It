@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20E232" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="WatchListMovie" representedClassName="WatchListMovie" syncable="YES" codeGenerationType="class">
+        <attribute name="backDropImage" optional="YES" attributeType="Binary"/>
         <attribute name="movieTitle" optional="YES" attributeType="String"/>
         <attribute name="posterImage" optional="YES" attributeType="Binary"/>
     </entity>
     <elements>
-        <element name="WatchListMovie" positionX="-63" positionY="-18" width="128" height="59"/>
+        <element name="WatchListMovie" positionX="-63" positionY="-18" width="128" height="74"/>
     </elements>
 </model>
