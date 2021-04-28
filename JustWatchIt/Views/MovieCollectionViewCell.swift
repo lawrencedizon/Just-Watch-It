@@ -28,4 +28,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 20
         layer.masksToBounds = true
     }
+    
+    
 }
