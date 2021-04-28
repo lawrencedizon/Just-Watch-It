@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 ///WatchListsVC displays the movies that is on their Watchlist. It also shows them a list of movies that they finished watching.
 class WatchListViewController: UIViewController {
@@ -56,3 +57,5 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
         250
     }
 }
+
+//MARK:- Core Data Stuff
