@@ -25,7 +25,7 @@ class MovieDetailView: UIView {
     }()
     
     let titleLabel: UILabel = {
-        let titleLabel = UILabel(frame: CGRect(x: 180, y: 290, width: 300, height: 50))
+        let titleLabel = UILabel(frame: CGRect(x: 180, y: 300, width: 300, height: 50))
         titleLabel.text = "Kong: Skull Island"
         titleLabel.font = UIFont(name: "Helvetica-Bold", size: 21)
         titleLabel.textColor = .white
@@ -33,7 +33,7 @@ class MovieDetailView: UIView {
     }()
     
     let directorLabel: UILabel = {
-        let directorLabel = UILabel(frame: CGRect(x: 15, y: 435, width: 300, height: 50))
+        let directorLabel = UILabel(frame: CGRect(x: 15, y: 440, width: 300, height: 50))
         directorLabel.text = "Director: Jordan Vogt-Roberts"
         directorLabel.font = UIFont(name: "Helvetica", size: 15)
         directorLabel.textColor = .white
@@ -55,13 +55,37 @@ class MovieDetailView: UIView {
         storyLabel.textColor = .white
         return storyLabel
     }()
+    
+    let genreLabel: UILabel = {
+        let genreLabel = UILabel(frame: CGRect(x: 180, y: 330, width: 200, height: 50))
+        genreLabel.text = "Action · Adventure · Fantasy"
+        genreLabel.font = UIFont(name: "Helvetica", size: 15)
+        genreLabel.textColor = .white
+        return genreLabel
+    }()
+    
+    let movieLengthLabel: UILabel = {
+        let movieLengthLabel = UILabel(frame: CGRect(x: 180, y: 355, width: 200, height: 50))
+        movieLengthLabel.text = "2hr 09 min"
+        movieLengthLabel.font = UIFont(name: "Helvetica", size: 15)
+        movieLengthLabel.textColor = .white
+        return movieLengthLabel
+    }()
+    
+    let yearLabel: UILabel = {
+        let yearLabel = UILabel(frame: CGRect(x: 180, y: 380, width: 200, height: 50))
+        yearLabel.text = "2017"
+        yearLabel.font = UIFont(name: "Helvetica", size: 15)
+        yearLabel.textColor = .white
+        return yearLabel
+    }()
  
     lazy var movieDescription: UITextView = {
         let movieDescription = UITextView(frame: CGRect(x: 13, y: 640, width: bounds.width - 20, height: 300))
         movieDescription.text = "After the Vietnam war, a team of scientists explores an uncharted island in the Pacific, venturing into the domain of the mighty Kong, and must fight to escape a primal Eden."
         movieDescription.backgroundColor = .clear
         movieDescription.textColor = .white
-        movieDescription.font = UIFont(name: "Helvetica-bold", size: 14)
+        movieDescription.font = UIFont(name: "Helvetica-bold", size: 15)
         return movieDescription
     }()
     
@@ -79,6 +103,9 @@ class MovieDetailView: UIView {
         addSubview(backDropImage)
         addSubview(blurView)
         addSubview(titleLabel)
+        addSubview(movieLengthLabel)
+        addSubview(genreLabel)
+        addSubview(yearLabel)
         addSubview(directorLabel)
         addSubview(castLabel)
         addSubview(posterImage)

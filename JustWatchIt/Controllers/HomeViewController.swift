@@ -81,7 +81,7 @@ class HomeViewController: UIViewController {
             scrollView.addSubview(collectionView)
         }
         addLayoutConstraints()
-        //fetchAllMovies()
+        fetchAllMovies()
     }
     
     override func viewDidLayoutSubviews() {
@@ -111,7 +111,7 @@ class HomeViewController: UIViewController {
         }
  
         // Assign fetched API movie data to our movieArray to display in our collectionView
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             for index in 0..<Constants.numberOfMovieLists{
                 self.movieArray[index] = networkManagerArray[index].fetchedMovies.shuffled()
             }
@@ -192,17 +192,16 @@ extension HomeViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        1
+        movieArray[collectionView.tag].count
     }
    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
 
-//            if let image = self.movieArray[collectionView.tag][indexPath.row].posterImage{
-//                cell.posterImage.image = image
-//            }
-        cell.backgroundColor = .red
+            if let image = self.movieArray[collectionView.tag][indexPath.row].posterImage{
+                cell.posterImage.image = image
+            }
             return cell
     }
 }
@@ -211,7 +210,7 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         let movieDetailVC = MovieDetailViewController()
-        navigationController?.pushViewController(movieDetailVC, animated: false)
+        navigationController?.pushViewController(movieDetailVC, animated: true)
         
         
         
