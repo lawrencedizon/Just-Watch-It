@@ -1,7 +1,7 @@
 import UIKit
 
 /// SearchViewController - allows the user to search a movie and display the searched results into a TableView
-class SearchViewController: UIViewController, UISearchBarDelegate {
+class SearchViewController: UIViewController {
     //MARK: - Properties
     private var searchBar: UISearchBar!
     private var tableView: UITableView!
@@ -14,22 +14,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     override func loadView() {
         super.loadView()
         view.backgroundColor = .black
-   
+        
         createSearchBar()
         createTableView()
-        
-        //API Network call
-        let networkManager = NetworkManager()
-        networkManager.fetchMovies(query: "frozen", type: .search)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                self.searchResults = networkManager.fetchedMovies
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        
-        
         addLayoutConstraints()
     }
     
@@ -42,6 +29,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         searchBar.delegate = self
         searchBar.searchBarStyle = UISearchBar.Style.minimal
         searchBar.placeholder = "Search a movie"
+        searchBar.keyboardAppearance = UIKeyboardAppearance.dark
+        searchBar.searchTextField.defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
     }
@@ -49,6 +38,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.keyboardDismissMode = .onDrag
         tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .black
@@ -74,11 +64,37 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
     }
 }
 
+//MARK: - SearchBar Delegates
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
+        searchBar.resignFirstResponder()
+        //API Network call
+        let networkManager = NetworkManager()
+        guard let query = searchBar.text else {
+            print("No text was inputted into the search bar")
+            return
+        }
+        
+        networkManager.fetchMovies(query: query, type: .search)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.searchResults = networkManager.fetchedMovies
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+    }
+}
+
 //MARK: - TableView Delegate Functions
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         searchResults.count
     }
+    
+   
+
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as! SearchTableViewCell

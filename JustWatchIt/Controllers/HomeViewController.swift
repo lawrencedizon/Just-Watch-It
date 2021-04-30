@@ -111,9 +111,10 @@ class HomeViewController: UIViewController {
         }
  
         // Assign fetched API movie data to our movieArray to display in our collectionView
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 9) {
             for index in 0..<Constants.numberOfMovieLists{
                 self.movieArray[index] = networkManagerArray[index].fetchedMovies.shuffled()
+
             }
             
             DispatchQueue.main.async {
