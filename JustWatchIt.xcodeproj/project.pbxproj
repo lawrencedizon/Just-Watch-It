@@ -12,6 +12,7 @@
 		900BD0F32602A453003EFBF8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900BD0F22602A453003EFBF8 /* SearchViewController.swift */; };
 		9027D4AC2639C57A00322066 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9027D4AA2639C57A00322066 /* Model.xcdatamodeld */; };
 		9027D4AE2639D22300322066 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9027D4AD2639D22300322066 /* MovieDetailView.swift */; };
+		9066D2BB263DBF59004581B6 /* JustWatchItTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9066D2BA263DBF59004581B6 /* JustWatchItTests.swift */; };
 		90733C7B25C8E445006717D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90733C7A25C8E445006717D2 /* AppDelegate.swift */; };
 		90733C7D25C8E445006717D2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90733C7C25C8E445006717D2 /* SceneDelegate.swift */; };
 		90733C8425C8E446006717D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90733C8325C8E446006717D2 /* Assets.xcassets */; };
@@ -25,12 +26,25 @@
 		90E854A726082C360060ABCD /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E854A626082C360060ABCD /* WatchListViewController.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9066D2BD263DBF59004581B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 90733C6F25C8E445006717D2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 90733C7625C8E445006717D2;
+			remoteInfo = JustWatchIt;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		900BD0EC2602A435003EFBF8 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		900BD0EF2602A44A003EFBF8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		900BD0F22602A453003EFBF8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9027D4AB2639C57A00322066 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		9027D4AD2639D22300322066 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
+		9066D2B8263DBF59004581B6 /* JustWatchItTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JustWatchItTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9066D2BA263DBF59004581B6 /* JustWatchItTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustWatchItTests.swift; sourceTree = "<group>"; };
+		9066D2BC263DBF59004581B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90733C7725C8E445006717D2 /* JustWatchIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustWatchIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90733C7A25C8E445006717D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90733C7C25C8E445006717D2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +61,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9066D2B5263DBF59004581B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		90733C7425C8E445006717D2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,6 +105,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		9066D2B9263DBF59004581B6 /* JustWatchItTests */ = {
+			isa = PBXGroup;
+			children = (
+				9066D2BA263DBF59004581B6 /* JustWatchItTests.swift */,
+				9066D2BC263DBF59004581B6 /* Info.plist */,
+			);
+			path = JustWatchItTests;
+			sourceTree = "<group>";
+		};
 		907314E026364F79006542A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				90733C7925C8E445006717D2 /* JustWatchIt */,
+				9066D2B9263DBF59004581B6 /* JustWatchItTests */,
 				90733C7825C8E445006717D2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				90733C7725C8E445006717D2 /* JustWatchIt.app */,
+				9066D2B8263DBF59004581B6 /* JustWatchItTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,6 +172,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9066D2B7263DBF59004581B6 /* JustWatchItTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9066D2C1263DBF59004581B6 /* Build configuration list for PBXNativeTarget "JustWatchItTests" */;
+			buildPhases = (
+				9066D2B4263DBF59004581B6 /* Sources */,
+				9066D2B5263DBF59004581B6 /* Frameworks */,
+				9066D2B6263DBF59004581B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9066D2BE263DBF59004581B6 /* PBXTargetDependency */,
+			);
+			name = JustWatchItTests;
+			productName = JustWatchItTests;
+			productReference = 9066D2B8263DBF59004581B6 /* JustWatchItTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		90733C7625C8E445006717D2 /* JustWatchIt */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 90733C8B25C8E446006717D2 /* Build configuration list for PBXNativeTarget "JustWatchIt" */;
@@ -163,9 +213,13 @@
 		90733C6F25C8E445006717D2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					9066D2B7263DBF59004581B6 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 90733C7625C8E445006717D2;
+					};
 					90733C7625C8E445006717D2 = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -185,11 +239,19 @@
 			projectRoot = "";
 			targets = (
 				90733C7625C8E445006717D2 /* JustWatchIt */,
+				9066D2B7263DBF59004581B6 /* JustWatchItTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9066D2B6263DBF59004581B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		90733C7525C8E445006717D2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -202,6 +264,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9066D2B4263DBF59004581B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9066D2BB263DBF59004581B6 /* JustWatchItTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		90733C7325C8E445006717D2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -225,6 +295,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9066D2BE263DBF59004581B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 90733C7625C8E445006717D2 /* JustWatchIt */;
+			targetProxy = 9066D2BD263DBF59004581B6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		90733C8525C8E446006717D2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -237,6 +315,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		9066D2BF263DBF59004581B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M28B8923AA;
+				INFOPLIST_FILE = JustWatchItTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencedizon.JustWatchItTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JustWatchIt.app/JustWatchIt";
+			};
+			name = Debug;
+		};
+		9066D2C0263DBF59004581B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M28B8923AA;
+				INFOPLIST_FILE = JustWatchItTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lawrencedizon.JustWatchItTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JustWatchIt.app/JustWatchIt";
+			};
+			name = Release;
+		};
 		90733C8925C8E446006717D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -394,6 +514,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9066D2C1263DBF59004581B6 /* Build configuration list for PBXNativeTarget "JustWatchItTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9066D2BF263DBF59004581B6 /* Debug */,
+				9066D2C0263DBF59004581B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		90733C7225C8E445006717D2 /* Build configuration list for PBXProject "JustWatchIt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
