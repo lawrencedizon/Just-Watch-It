@@ -4,9 +4,8 @@ import CoreData
 ///WatchListsVC displays the movies that is on their Watchlist. It also shows them a list of movies that they finished watching.
 class WatchListViewController: UIViewController {
     private var watchListTableView: UITableView!
-    private var watchListMovieArray = [Movie]()
+    private var watchListMovieArray = [WatchListMovie]()
     private var seenMovieArray = [Movie]()
-    private var watchMovieListNSArray: [NSManagedObject] = []
     
     private let segmentedControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: ["Watchlist","Seen"])
@@ -25,13 +24,13 @@ class WatchListViewController: UIViewController {
         createTableView()
         
         //Core Data testing
-        //addToWatchList(movieTitle: "Kong")
-        //addToWatchList(movieTitle: "Peter Pan")
-        //addToWatchList(movieTitle: "Blues Clues")
+        //deleteAllRecords()
+        
+        addToWatchList(movieTitle: "Kong")
+        addToWatchList(movieTitle: "Blues Clues")
+        
         fetchCoreDataMovies()
-        print("CoreData movie count: \(watchMovieListNSArray.count)")
-        
-        
+        watchListTableView.reloadData()
     }
     
     private func createTableView(){
@@ -79,40 +78,12 @@ class WatchListViewController: UIViewController {
         // 4
         do {
             try managedContext.save()
-            watchMovieListNSArray.append(watchListMovie)
         }catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
     
-    // Fetches movies from Core Data
     func fetchCoreDataMovies(){
-        // 1
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        // 2
-        
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "WatchListMovie")
-        
-        // 3
-        
-        do {
-            watchMovieListNSArray = try managedContext.fetch(fetchRequest)
-        }catch let error as NSError {
-            print("Could not fetch movies. \(error), \(error.userInfo)")
-        }
-        
-        for movie in watchMovieListNSArray{
-            print("Movie: \(movie)")
-        }
-    }
-    
-    //TODO: - Needs to fetch data from Core Data and convert it into Movie data * NOT WORKING *
-    func fetchWatchListMovies(){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -120,9 +91,9 @@ class WatchListViewController: UIViewController {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "WatchListMovie")
         
         do {
-            watchListMovieArray = try managedContext.fetch(fetchRequest) as! [Movie]
+            watchListMovieArray = try managedContext.fetch(fetchRequest) as! [WatchListMovie]
         }catch let error as NSError {
-            print("Could not fetch movies. \(error), \(error.userInfo)")
+            print("Could not fetch movie. \(error), \(error.userInfo)")
         }
     }
 }
@@ -130,13 +101,14 @@ class WatchListViewController: UIViewController {
 //MARK: - TableView Delegate Functions
 extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        segmentedControl.selectedSegmentIndex == 0 ? watchMovieListNSArray.count : seenMovieArray.count
+        segmentedControl.selectedSegmentIndex == 0 ? watchListMovieArray.count : seenMovieArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.textColor = .white
         cell.backgroundColor = .black
+        cell.textLabel?.text = watchListMovieArray[indexPath.row].movieTitle
         return cell
     }
     
