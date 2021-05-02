@@ -3,16 +3,20 @@ import CoreData
 
 ///WatchListsVC displays the movies that is on their Watchlist. It also shows them a list of movies that they finished watching.
 class WatchListViewController: UIViewController {
-    private var watchListTableView: UITableView!
+    
+    //The WatchList and SeenList uses one TableView to display data
+    private var sharedTableView: UITableView!
     private var watchListMovieArray = [WatchListMovie]()
-    private var seenMovieArray = [Movie]()
+    private var seenListMovieArray = [SeenListMovie]()
+    
     
     private let segmentedControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: ["Watchlist","Seen"])
         segmentedControl.frame = CGRect(x: 110, y: 70, width: 170, height: 35)
         segmentedControl.backgroundColor = .black
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
-        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.red], for: .selected)
+        segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .selected)
+        segmentedControl.addTarget(self, action: #selector(segmentControl(_:)), for: UIControl.Event.valueChanged )
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
@@ -24,30 +28,48 @@ class WatchListViewController: UIViewController {
         createTableView()
         
         //Core Data testing
-        //deleteAllRecords()
-        
-        addToWatchList(movieTitle: "Kong")
-        addToWatchList(movieTitle: "Blues Clues")
-        
-        fetchCoreDataMovies()
-        watchListTableView.reloadData()
+        //deleteRecords(of: "SeenListMovie")
+        //deleteRecords(of: "WatchListMovie")
+        if let kongImage = UIImage(named: "kongPoster.jpg")?.jpeg{
+            addRecord(title: "Kong", year: 2017, poster: kongImage, entityName: "WatchListMovie")
+        }
+//        if let movieImage = UIImage(named: "movie.jpg")?.jpeg{
+//            addRecord(title: "1917", year: 1917, poster: movieImage, entityName: "WatchListMovie")
+//        }
+        if let movie2Image = UIImage(named: "movie2.jpg")?.jpeg{
+            addRecord(title: "Archer", year: 2020, poster: movie2Image, entityName: "SeenListMovie")
+        }
+        fetchCoreDataMovies(of: "WatchListMovie")
+        sharedTableView.reloadData()
     }
     
     private func createTableView(){
-        //unWatchedTableView
-        watchListTableView = UITableView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: view.bounds.height))
-        watchListTableView.delegate = self
-        watchListTableView.dataSource = self
-        watchListTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        watchListTableView.backgroundColor = .black
-        view.addSubview(watchListTableView)
+        sharedTableView = UITableView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: 0.75 * view.bounds.height))
+        sharedTableView.delegate = self
+        sharedTableView.dataSource = self
+        sharedTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+        sharedTableView.backgroundColor = .black
+        view.addSubview(sharedTableView)
+    }
+    @objc func segmentControl(_ segmentedControl: UISegmentedControl) {
+       switch (segmentedControl.selectedSegmentIndex) {
+          case 0:
+            print("Fetching WatchList")
+            fetchCoreDataMovies(of: "WatchListMovie")
+          case 1:
+            print("Fetching SeenList")
+            fetchCoreDataMovies(of: "SeenListMovie")
+          default:
+            print("NONE AT ALL")
+       }
+        sharedTableView.reloadData()
     }
     
     //MARK:- Core Data
-    func deleteAllRecords() {
+    func deleteRecords(of entityName: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
-        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "WatchListMovie")
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
 
         do {
@@ -59,7 +81,7 @@ class WatchListViewController: UIViewController {
     }
     
     // Core Data adding data
-    func addToWatchList(movieTitle: String){
+    func addRecord(title: String, year: Int, poster: Data, entityName: String){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -68,12 +90,14 @@ class WatchListViewController: UIViewController {
         let managedContext = appDelegate.persistentContainer.viewContext
         
         // 2
-        let entity = NSEntityDescription.entity(forEntityName: "WatchListMovie", in: managedContext)!
+        let entity = NSEntityDescription.entity(forEntityName: entityName, in: managedContext)!
         
-        let watchListMovie = NSManagedObject(entity: entity, insertInto: managedContext)
+        let record = NSManagedObject(entity: entity, insertInto: managedContext)
         
         // 3
-        watchListMovie.setValue(movieTitle, forKey: "movieTitle")
+        record.setValue(title, forKey: "title")
+        record.setValue(year, forKey: "year")
+        record.setValue(poster, forKey: "posterImage")
         
         // 4
         do {
@@ -83,15 +107,20 @@ class WatchListViewController: UIViewController {
         }
     }
     
-    func fetchCoreDataMovies(){
+    func fetchCoreDataMovies(of entityName: String){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "WatchListMovie")
-        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: entityName)
         do {
-            watchListMovieArray = try managedContext.fetch(fetchRequest) as! [WatchListMovie]
+            if entityName == "WatchListMovie" {
+                let movieArray = try managedContext.fetch(fetchRequest) as! [WatchListMovie]
+                watchListMovieArray = movieArray
+            }else {
+                let movieArray = try managedContext.fetch(fetchRequest) as! [SeenListMovie]
+                seenListMovieArray = movieArray
+            }
         }catch let error as NSError {
             print("Could not fetch movie. \(error), \(error.userInfo)")
         }
@@ -101,14 +130,28 @@ class WatchListViewController: UIViewController {
 //MARK: - TableView Delegate Functions
 extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        segmentedControl.selectedSegmentIndex == 0 ? watchListMovieArray.count : seenMovieArray.count
+       segmentedControl.selectedSegmentIndex == 0 ? watchListMovieArray.count : seenListMovieArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as! CustomTableViewCell
         cell.textLabel?.textColor = .white
         cell.backgroundColor = .black
-        cell.textLabel?.text = watchListMovieArray[indexPath.row].movieTitle
+        
+        if segmentedControl.selectedSegmentIndex == 0 {
+            let movie = watchListMovieArray[indexPath.row]
+            if let title = movie.title, let posterImage = movie.posterImage {
+                cell.movieTitleLabel.text = "\(title) (\(movie.year))"
+                cell.posterImageView.image = UIImage(data: posterImage)
+            }
+        }else if segmentedControl.selectedSegmentIndex == 1{
+            let movie = seenListMovieArray[indexPath.row]
+            if let title = movie.title, let posterImage = movie.posterImage {
+                cell.movieTitleLabel.text = "\(title) (\(movie.year))"
+                cell.posterImageView.image = UIImage(data: posterImage)
+            }
+        }
+        
         return cell
     }
     
@@ -117,6 +160,9 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     }
 }
 
+extension UIImage {
+    var jpeg: Data? { jpegData(compressionQuality: 1) }  // QUALITY min = 0 / max = 1
+}
 
 
 

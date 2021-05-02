@@ -86,7 +86,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 400)
+        scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 380)
     }
     
     //MARK: - API Management
@@ -139,27 +139,27 @@ class HomeViewController: UIViewController {
         constraints.append(scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
         
         //Title0
-        constraints.append(titleArray[0].topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20))
+        constraints.append(titleArray[0].topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10))
         constraints.append(titleArray[0].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(titleArray[0].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
        
         //Title1
-        constraints.append(titleArray[1].topAnchor.constraint(equalTo: collectionViewArray[0].bottomAnchor, constant: 30))
+        constraints.append(titleArray[1].topAnchor.constraint(equalTo: collectionViewArray[0].bottomAnchor, constant: 20))
         constraints.append(titleArray[1].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(titleArray[1].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
         //Title2
-        constraints.append(titleArray[2].topAnchor.constraint(equalTo: collectionViewArray[1].bottomAnchor, constant: 30))
+        constraints.append(titleArray[2].topAnchor.constraint(equalTo: collectionViewArray[1].bottomAnchor, constant: 20))
         constraints.append(titleArray[2].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(titleArray[2].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
         //Title3
-        constraints.append(titleArray[3].topAnchor.constraint(equalTo: collectionViewArray[2].bottomAnchor, constant: 30))
+        constraints.append(titleArray[3].topAnchor.constraint(equalTo: collectionViewArray[2].bottomAnchor, constant: 20))
         constraints.append(titleArray[3].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
         constraints.append(titleArray[3].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
         // CollectionView0
-        constraints.append(collectionViewArray[0].topAnchor.constraint(equalTo: titleArray[0].topAnchor, constant: 30))
+        constraints.append(collectionViewArray[0].topAnchor.constraint(equalTo: titleArray[0].bottomAnchor, constant: 10))
         constraints.append(collectionViewArray[0].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[0].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[0].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
@@ -171,14 +171,14 @@ class HomeViewController: UIViewController {
         constraints.append(collectionViewArray[1].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
         
         // CollectionView2
-        constraints.append(collectionViewArray[2].topAnchor.constraint(equalTo: titleArray[2].topAnchor, constant: 35))
+        constraints.append(collectionViewArray[2].topAnchor.constraint(equalTo: titleArray[2].bottomAnchor, constant: 10))
         constraints.append(collectionViewArray[2].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[2].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[2].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
         constraints.append(collectionViewArray[2].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
 
         // CollectionView3
-        constraints.append(collectionViewArray[3].topAnchor.constraint(equalTo: titleArray[3].topAnchor, constant: 35))
+        constraints.append(collectionViewArray[3].topAnchor.constraint(equalTo: titleArray[3].bottomAnchor, constant: 10))
         constraints.append(collectionViewArray[3].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[3].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[3].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))

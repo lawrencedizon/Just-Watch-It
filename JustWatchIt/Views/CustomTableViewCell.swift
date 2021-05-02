@@ -1,7 +1,7 @@
 import UIKit
 
-class SearchTableViewCell: UITableViewCell {
-    static let identifier: String = "SearchTableViewCell"
+class CustomTableViewCell: UITableViewCell {
+    static let identifier: String = "CustomTableViewCell"
     
     let posterImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 10, y:10, width: 140, height: 200))
