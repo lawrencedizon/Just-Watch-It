@@ -1,5 +1,6 @@
 import UIKit
 
+///- MovieCollectionViewCell defines the cell for each MovieCollectionView
 class MovieCollectionViewCell: UICollectionViewCell {
     static var identifier: String = "Cell"
     let posterImage: UIImageView = {

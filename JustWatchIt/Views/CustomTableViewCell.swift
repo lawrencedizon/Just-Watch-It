@@ -1,8 +1,11 @@
 import UIKit
 
+///- CustomTableViewCell defines the application's standard TableView cell design
 class CustomTableViewCell: UITableViewCell {
+    // MARK: - Properties
     static let identifier: String = "CustomTableViewCell"
     
+    //MARK: - User Interface Properties
     let posterImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 10, y:10, width: 140, height: 200))
         imageView.layer.cornerRadius = 10
@@ -19,10 +22,10 @@ class CustomTableViewCell: UITableViewCell {
         return label
     }()
  
+    //MARK: - View LifeCycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .black
-        
         self.contentView.addSubview(posterImageView)
         self.contentView.addSubview(movieTitleLabel)
     }

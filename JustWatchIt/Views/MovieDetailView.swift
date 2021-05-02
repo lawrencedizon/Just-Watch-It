@@ -1,31 +1,64 @@
 import UIKit
 
+///- MovieDetailView manages the main view for MovieDetailViewController
 class MovieDetailView: UIView {
+    //MARK: - User Interface
     
+    //MARK: - StackViews
+    lazy var posterStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [posterImage,movieInfoStackView])
+        stackView.axis = .horizontal
+        stackView.spacing = 15
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    //movieInfoStackView is embedded into posterStackView
+    lazy var movieInfoStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, genreLabel,directorLabel, movieLengthLabel, yearLabel])
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.alignment = .top
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    lazy var storyStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [storyLabel,movieDescription])
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    //MARK: - Individual View Objects
     lazy var backDropImage: UIImageView = {
         let backDropImage = UIImageView(image: UIImage(named: "kongBackDrop.jpg"))
         backDropImage.contentMode = .scaleAspectFill
-        backDropImage.frame = CGRect(x: 0, y: 0, width: bounds.width, height: (0.6 * bounds.height))
+        backDropImage.translatesAutoresizingMaskIntoConstraints = false
         return backDropImage
     }()
     
     lazy var posterImage: UIImageView = {
         let posterImage = UIImageView(image: UIImage(named: "kongPoster.jpg"))
         posterImage.contentMode = .scaleAspectFill
-        posterImage.frame = CGRect(x: 15, y: 255, width: 150, height: 150)
-        
+        posterImage.translatesAutoresizingMaskIntoConstraints = false
         return posterImage
     }()
     
     lazy var blurView: UIView = {
         let blur = UIBlurEffect(style: .dark)
         let blurView = UIVisualEffectView(effect: blur)
-        blurView.frame = CGRect(x: 0, y: 0.35 * bounds.height, width: bounds.width, height: 300)
+        blurView.translatesAutoresizingMaskIntoConstraints = false
         return blurView
     }()
     
     let titleLabel: UILabel = {
-        let titleLabel = UILabel(frame: CGRect(x: 180, y: 300, width: 300, height: 50))
+        let titleLabel = UILabel()
         titleLabel.text = "Kong: Skull Island"
         titleLabel.font = UIFont(name: "Helvetica-Bold", size: 21)
         titleLabel.textColor = .white
@@ -33,7 +66,7 @@ class MovieDetailView: UIView {
     }()
     
     let directorLabel: UILabel = {
-        let directorLabel = UILabel(frame: CGRect(x: 15, y: 440, width: 300, height: 50))
+        let directorLabel = UILabel()
         directorLabel.text = "Director: Jordan Vogt-Roberts"
         directorLabel.font = UIFont(name: "Helvetica", size: 15)
         directorLabel.textColor = .white
@@ -41,7 +74,7 @@ class MovieDetailView: UIView {
     }()
     
     let castLabel: UILabel = {
-        let castLabel = UILabel(frame: CGRect(x: 165, y: 470, width: 300, height: 50))
+        let castLabel = UILabel()
         castLabel.text = "Cast"
         castLabel.font = UIFont(name: "Helvetica-bold", size: 21)
         castLabel.textColor = .white
@@ -49,7 +82,7 @@ class MovieDetailView: UIView {
     }()
     
     let storyLabel: UILabel = {
-        let storyLabel = UILabel(frame: CGRect(x: 145, y: 600, width: 200, height: 50))
+        let storyLabel = UILabel()
         storyLabel.text = "Storyline"
         storyLabel.font = UIFont(name: "Helvetica-bold", size: 21)
         storyLabel.textColor = .white
@@ -57,7 +90,7 @@ class MovieDetailView: UIView {
     }()
     
     let genreLabel: UILabel = {
-        let genreLabel = UILabel(frame: CGRect(x: 180, y: 330, width: 200, height: 50))
+        let genreLabel = UILabel()
         genreLabel.text = "Action · Adventure · Fantasy"
         genreLabel.font = UIFont(name: "Helvetica", size: 15)
         genreLabel.textColor = .white
@@ -65,7 +98,7 @@ class MovieDetailView: UIView {
     }()
     
     let movieLengthLabel: UILabel = {
-        let movieLengthLabel = UILabel(frame: CGRect(x: 180, y: 355, width: 200, height: 50))
+        let movieLengthLabel = UILabel()
         movieLengthLabel.text = "2hr 09 min"
         movieLengthLabel.font = UIFont(name: "Helvetica", size: 15)
         movieLengthLabel.textColor = .white
@@ -73,7 +106,7 @@ class MovieDetailView: UIView {
     }()
     
     let yearLabel: UILabel = {
-        let yearLabel = UILabel(frame: CGRect(x: 180, y: 380, width: 200, height: 50))
+        let yearLabel = UILabel()
         yearLabel.text = "2017"
         yearLabel.font = UIFont(name: "Helvetica", size: 15)
         yearLabel.textColor = .white
@@ -81,35 +114,63 @@ class MovieDetailView: UIView {
     }()
  
     lazy var movieDescription: UITextView = {
-        let movieDescription = UITextView(frame: CGRect(x: 13, y: 640, width: bounds.width - 20, height: 300))
+        let movieDescription = UITextView()
         movieDescription.text = "After the Vietnam war, a team of scientists explores an uncharted island in the Pacific, venturing into the domain of the mighty Kong, and must fight to escape a primal Eden."
         movieDescription.backgroundColor = .clear
         movieDescription.textColor = .white
         movieDescription.font = UIFont(name: "Helvetica-bold", size: 15)
+        movieDescription.isScrollEnabled = false
         return movieDescription
     }()
     
+    //MARK: - View LifeCycle
     override init(frame: CGRect){
         super.init(frame: frame)
         backgroundColor = .black
-        initSubViews()
+        addSubview(backDropImage)
+        addSubview(blurView)
+        addSubview(posterStackView)
+        addSubview(storyStackView)
+        addLayoutConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initSubViews(){
-        addSubview(backDropImage)
-        addSubview(blurView)
-        addSubview(titleLabel)
-        addSubview(movieLengthLabel)
-        addSubview(genreLabel)
-        addSubview(yearLabel)
-        addSubview(directorLabel)
-        addSubview(castLabel)
-        addSubview(posterImage)
-        addSubview(storyLabel)
-        addSubview(movieDescription)
+    //MARK: - Auto Layout Constraints
+    func addLayoutConstraints(){
+        var constraints = [NSLayoutConstraint]()
+        
+        //backdrop
+        constraints.append(backDropImage.topAnchor.constraint(equalTo: topAnchor))
+        constraints.append(backDropImage.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor))
+        constraints.append(backDropImage.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor))
+        constraints.append(backDropImage.heightAnchor.constraint(equalToConstant: 0.6 * bounds.height))
+        
+        //blurView
+        constraints.append(blurView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 180))
+        
+        constraints.append(blurView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor))
+        constraints.append(blurView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor))
+        
+        constraints.append(blurView.heightAnchor.constraint(equalToConstant: 300))
+        
+        //posterImage
+        constraints.append(posterImage.heightAnchor.constraint(equalToConstant: 150))
+        constraints.append(posterImage.widthAnchor.constraint(equalToConstant: 150))
+        
+        //posterStackView
+        constraints.append(posterStackView.topAnchor.constraint(equalTo: blurView.topAnchor,constant: -2.5))
+        constraints.append(posterStackView.leadingAnchor.constraint(equalTo: blurView.leadingAnchor, constant: 15))
+        constraints.append(posterStackView.trailingAnchor.constraint(equalTo: blurView.trailingAnchor, constant: 15))
+        
+        //storyStackView
+        constraints.append(storyStackView.topAnchor.constraint(equalTo: blurView.bottomAnchor,constant: 20))
+        constraints.append(storyStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor))
+        constraints.append(storyStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor))
+        
+        //Activate constraints
+        NSLayoutConstraint.activate(constraints)
     }
 }

@@ -2,7 +2,6 @@ import UIKit
 
 class HomeViewController: UIViewController {
     //MARK: - Properties
-    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +60,7 @@ class HomeViewController: UIViewController {
         return collectionViewArray
     }()
     
-    //MARK: - ViewController LifeCycle States
+    //MARK: - ViewController LifeCycle
     override func loadView() {
         super.loadView()
         view.backgroundColor = .black
@@ -199,7 +198,6 @@ extension HomeViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
-
             if let image = self.movieArray[collectionView.tag][indexPath.row].posterImage{
                 cell.posterImage.image = image
             }
