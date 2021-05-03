@@ -1,9 +1,8 @@
 import UIKit
 
-///- MovieCollectionViewCell defines the cell for each MovieCollectionView
 class MovieCollectionViewCell: UICollectionViewCell {
     static var identifier: String = "Cell"
-    let posterImage: UIImageView = {
+    lazy var posterImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y:0, width: 170, height: 230))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = false
@@ -29,6 +28,4 @@ class MovieCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 20
         layer.masksToBounds = true
     }
-    
-    
 }

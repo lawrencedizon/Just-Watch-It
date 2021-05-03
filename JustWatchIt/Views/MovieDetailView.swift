@@ -16,9 +16,9 @@ class MovieDetailView: UIView {
     
     //movieInfoStackView is embedded into posterStackView
     lazy var movieInfoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, genreLabel,directorLabel, movieLengthLabel, yearLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, genreLabel,directorLabel, movieLengthLabel, yearLabel, addToWatchListButton])
         stackView.axis = .vertical
-        stackView.spacing = 10
+        stackView.spacing = 5
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -112,6 +112,14 @@ class MovieDetailView: UIView {
         yearLabel.textColor = .white
         return yearLabel
     }()
+    
+    let addToWatchListButton: UIButton = {
+        let watchListButton = UIButton()
+        watchListButton.setTitle("+ add to Watchlist", for: .normal)
+        watchListButton.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+        watchListButton.setTitleColor(UIColor.white, for: .normal)
+        return watchListButton
+    }()
  
     lazy var movieDescription: UITextView = {
         let movieDescription = UITextView()
@@ -138,6 +146,8 @@ class MovieDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+  
+    
     //MARK: - Auto Layout Constraints
     func addLayoutConstraints(){
         var constraints = [NSLayoutConstraint]()
@@ -149,10 +159,10 @@ class MovieDetailView: UIView {
         constraints.append(backDropImage.heightAnchor.constraint(equalToConstant: 0.6 * bounds.height))
         
         //blurView
-        constraints.append(blurView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 180))
-        
         constraints.append(blurView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor))
         constraints.append(blurView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor))
+        constraints.append(blurView.bottomAnchor.constraint(equalTo: backDropImage.bottomAnchor))
+
         
         constraints.append(blurView.heightAnchor.constraint(equalToConstant: 300))
         
@@ -161,7 +171,7 @@ class MovieDetailView: UIView {
         constraints.append(posterImage.widthAnchor.constraint(equalToConstant: 150))
         
         //posterStackView
-        constraints.append(posterStackView.topAnchor.constraint(equalTo: blurView.topAnchor,constant: -2.5))
+        constraints.append(posterStackView.topAnchor.constraint(equalTo: blurView.topAnchor, constant: 5))
         constraints.append(posterStackView.leadingAnchor.constraint(equalTo: blurView.leadingAnchor, constant: 15))
         constraints.append(posterStackView.trailingAnchor.constraint(equalTo: blurView.trailingAnchor, constant: 15))
         
@@ -169,6 +179,9 @@ class MovieDetailView: UIView {
         constraints.append(storyStackView.topAnchor.constraint(equalTo: blurView.bottomAnchor,constant: 20))
         constraints.append(storyStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor))
         constraints.append(storyStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor))
+        
+//        constraints.append(addToWatchListButton.heightAnchor.constraint(equalToConstant: 35))
+//        constraints.append(addToWatchListButton.widthAnchor.constraint(equalToConstant: 200))
         
         //Activate constraints
         NSLayoutConstraint.activate(constraints)

@@ -13,6 +13,7 @@ class WatchListViewController: UIViewController {
     private let segmentedControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: ["Watchlist","Seen"])
         segmentedControl.frame = CGRect(x: 110, y: 70, width: 170, height: 35)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.backgroundColor = .black
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .selected)
@@ -30,15 +31,12 @@ class WatchListViewController: UIViewController {
         //Core Data testing
         //deleteRecords(of: "SeenListMovie")
         //deleteRecords(of: "WatchListMovie")
-        if let kongImage = UIImage(named: "kongPoster.jpg")?.jpeg{
-            addRecord(title: "Kong", year: 2017, poster: kongImage, entityName: "WatchListMovie")
-        }
-//        if let movieImage = UIImage(named: "movie.jpg")?.jpeg{
-//            addRecord(title: "1917", year: 1917, poster: movieImage, entityName: "WatchListMovie")
-//        }
-        if let movie2Image = UIImage(named: "movie2.jpg")?.jpeg{
-            addRecord(title: "Archer", year: 2020, poster: movie2Image, entityName: "SeenListMovie")
-        }
+        
+        layoutConstraints()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         fetchCoreDataMovies(of: "WatchListMovie")
         sharedTableView.reloadData()
     }
@@ -49,6 +47,7 @@ class WatchListViewController: UIViewController {
         sharedTableView.dataSource = self
         sharedTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         sharedTableView.backgroundColor = .black
+        sharedTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(sharedTableView)
     }
     @objc func segmentControl(_ segmentedControl: UISegmentedControl) {
@@ -125,6 +124,23 @@ class WatchListViewController: UIViewController {
             print("Could not fetch movie. \(error), \(error.userInfo)")
         }
     }
+    
+    
+    private func layoutConstraints(){
+        var constraints = [NSLayoutConstraint]()
+        //segmentedControl
+        constraints.append(segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25))
+        constraints.append(segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        
+        //sharedTableView
+        constraints.append(sharedTableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 25))
+        constraints.append(sharedTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20))
+        constraints.append(sharedTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 20))
+        constraints.append(sharedTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
+        
+        //Activate constraints
+        NSLayoutConstraint.activate(constraints)
+    }
 }
 
 //MARK: - TableView Delegate Functions
@@ -163,6 +179,7 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
 extension UIImage {
     var jpeg: Data? { jpegData(compressionQuality: 1) }  // QUALITY min = 0 / max = 1
 }
+
 
 
 

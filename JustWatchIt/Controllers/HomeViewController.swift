@@ -174,7 +174,7 @@ class HomeViewController: UIViewController {
         constraints.append(collectionViewArray[2].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[2].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[2].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
-        constraints.append(collectionViewArray[2].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
+    
 
         // CollectionView3
         constraints.append(collectionViewArray[3].topAnchor.constraint(equalTo: titleArray[3].bottomAnchor, constant: 10))
@@ -192,15 +192,16 @@ extension HomeViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        movieArray[collectionView.tag].count
+        1 //movieArray[collectionView.tag].count
     }
    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
-            if let image = self.movieArray[collectionView.tag][indexPath.row].posterImage{
-                cell.posterImage.image = image
-            }
+        cell.backgroundColor = .red
+//            if let image = self.movieArray[collectionView.tag][indexPath.row].posterImage{
+//                cell.posterImage.image = image
+//            }
             return cell
     }
 }
