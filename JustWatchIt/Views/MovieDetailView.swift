@@ -16,7 +16,7 @@ class MovieDetailView: UIView {
     
     //movieInfoStackView is embedded into posterStackView
     lazy var movieInfoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, genreLabel,directorLabel, movieLengthLabel, yearLabel, addToWatchListButton])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, yearLabel, addToWatchListButton])
         stackView.axis = .vertical
         stackView.spacing = 5
         stackView.alignment = .top
@@ -37,14 +37,14 @@ class MovieDetailView: UIView {
     
     //MARK: - Individual View Objects
     lazy var backDropImage: UIImageView = {
-        let backDropImage = UIImageView(image: UIImage(named: "kongBackDrop.jpg"))
+        let backDropImage = UIImageView()
         backDropImage.contentMode = .scaleAspectFill
         backDropImage.translatesAutoresizingMaskIntoConstraints = false
         return backDropImage
     }()
     
     lazy var posterImage: UIImageView = {
-        let posterImage = UIImageView(image: UIImage(named: "kongPoster.jpg"))
+        let posterImage = UIImageView()
         posterImage.contentMode = .scaleAspectFill
         posterImage.translatesAutoresizingMaskIntoConstraints = false
         return posterImage
@@ -59,19 +59,19 @@ class MovieDetailView: UIView {
     
     let titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.text = "Kong: Skull Island"
+        titleLabel.numberOfLines = 2
         titleLabel.font = UIFont(name: "Helvetica-Bold", size: 21)
         titleLabel.textColor = .white
         return titleLabel
     }()
     
-    let directorLabel: UILabel = {
-        let directorLabel = UILabel()
-        directorLabel.text = "Director: Jordan Vogt-Roberts"
-        directorLabel.font = UIFont(name: "Helvetica", size: 15)
-        directorLabel.textColor = .white
-        return directorLabel
-    }()
+//    let directorLabel: UILabel = {
+//        let directorLabel = UILabel()
+//        directorLabel.text = "Director: Jordan Vogt-Roberts"
+//        directorLabel.font = UIFont(name: "Helvetica", size: 15)
+//        directorLabel.textColor = .white
+//        return directorLabel
+//    }()
     
     let castLabel: UILabel = {
         let castLabel = UILabel()
@@ -126,7 +126,7 @@ class MovieDetailView: UIView {
         movieDescription.text = "After the Vietnam war, a team of scientists explores an uncharted island in the Pacific, venturing into the domain of the mighty Kong, and must fight to escape a primal Eden."
         movieDescription.backgroundColor = .clear
         movieDescription.textColor = .white
-        movieDescription.font = UIFont(name: "Helvetica-bold", size: 15)
+        movieDescription.font = UIFont(name: "Helvetica", size: 15)
         movieDescription.isScrollEnabled = false
         return movieDescription
     }()

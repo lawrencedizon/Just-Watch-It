@@ -11,7 +11,7 @@
         <attribute name="year" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="WatchListMovie" positionX="-63" positionY="-18" width="128" height="74"/>
         <element name="SeenListMovie" positionX="-54" positionY="18" width="128" height="74"/>
+        <element name="WatchListMovie" positionX="-63" positionY="-18" width="128" height="74"/>
     </elements>
 </model>

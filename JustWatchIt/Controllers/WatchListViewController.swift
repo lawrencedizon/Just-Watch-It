@@ -31,7 +31,8 @@ class WatchListViewController: UIViewController {
         //Core Data testing
         //deleteRecords(of: "SeenListMovie")
         //deleteRecords(of: "WatchListMovie")
-        
+        fetchCoreDataMovies(of: "WatchListMovie")
+        sharedTableView.reloadData()
         layoutConstraints()
     }
     

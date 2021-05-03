@@ -51,12 +51,16 @@ final class NetworkManager {
             
             if let nowPlayingResponse = try? JSONDecoder().decode(NowPlayingResponse.self, from: data){
                 for item in nowPlayingResponse.results{
-                    if let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"){
+                    if let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"), let backDropURL = URL(string: "https://image.tmdb.org/t/p/original//\(item.backdrop_path)"){
                             guard let posterImage = try? Data(contentsOf: posterURL) else {
                                 print("posterImage could not be made")
                                 return
                             }
-                            self?.fetchedMovies.append(Movie(title: item.original_title,posterImage: UIImage(data: posterImage), year: item.release_date))
+                            guard let backDropImage = try? Data(contentsOf: backDropURL) else {
+                                print("backDrop image could not be made")
+                                return
+                            }
+                        self?.fetchedMovies.append(Movie(title: item.original_title,posterImage: UIImage(data: posterImage), backDropImage: UIImage(data: backDropImage), year: item.release_date, storyLine: item.overview))
                     }else{
                         print("posterURL failed")
                     }
