@@ -1,6 +1,6 @@
 struct Constants {
     static let API_KEY = ""
-    static let numberOfMovieLists = 4
+    static let numberOfCollectionViewMovieLists = 4
 }
 
 enum ListTypes {

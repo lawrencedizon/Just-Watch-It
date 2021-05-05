@@ -2,43 +2,61 @@ import UIKit
 
 class HomeViewController: UIViewController {
     //MARK: - Properties
+    
+    ///scrollView - the Main view's subview that contains the titleLabels and collectionViews
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        
+        //Configure scrollView properties
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = .black
         scrollView.showsVerticalScrollIndicator = false
-           return scrollView
+        
+        return scrollView
        }()
-
-    var movieArray: [[Movie]] = {
-    var moviesArray = [[Movie]]()
-        for index in 0..<Constants.numberOfMovieLists{
-            let movieArray = [Movie]()
-            moviesArray.append(movieArray)
-        }
-        return moviesArray
+    
+    ///movieArray - array that contains an array of Movie data that is retrieved from the NetworkManager
+    private lazy var arrayOfArrayMovies: [[Movie]] = {
+        var arrayOfArrayMovies = [[Movie]]()
+        
+            //Initialize each empty array of Movie and add it to arrayOfArraymovies array
+            for index in 0..<Constants.numberOfCollectionViewMovieLists{
+                let movieArray = [Movie]()
+                arrayOfArrayMovies.append(movieArray)
+            }
+        
+        return arrayOfArrayMovies
     }()
     
-    let titleArray: [UILabel] = {
-        var titleArray = [UILabel]()
-        for index in 0..<Constants.numberOfMovieLists{
+    ///titleLabelArray - array that contains the title labels
+    private lazy var titleLabelArray: [UILabel] = {
+        var titleLabelArray = [UILabel]()
+        
+        //Configure UILabel properties
+        for index in 0..<Constants.numberOfCollectionViewMovieLists{
             let title = UILabel()
             title.translatesAutoresizingMaskIntoConstraints = false
             title.font = UIFont(name: "Helvetica", size: 24)
             title.textColor = .white
-            titleArray.append(title)
+            
+            //Add each titleLabel to the titleLabelArray
+            titleLabelArray.append(title)
         }
-        titleArray[0].text = "Popular"
-        titleArray[1].text = "Now Playing"
-        titleArray[2].text = "Upcoming"
-        titleArray[3].text = "Top Rated"
-        return titleArray
+        //Declare each label's title
+        titleLabelArray[0].text = "Popular"
+        titleLabelArray[1].text = "Now Playing"
+        titleLabelArray[2].text = "Upcoming"
+        titleLabelArray[3].text = "Top Rated"
+        
+        return titleLabelArray
     }()
     
-    let collectionViewArray: [UICollectionView] = {
+    ///collectionViewArray -  array that contains collectionViews that display movie posters
+    private lazy var collectionViewArray: [UICollectionView] = {
         var collectionViewArray = [UICollectionView]()
         
-        for index in 0..<Constants.numberOfMovieLists {
+        for index in 0..<Constants.numberOfCollectionViewMovieLists {
+            
             //Setup collectionView layout
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
@@ -69,7 +87,7 @@ class HomeViewController: UIViewController {
         view.addSubview(scrollView)
         
         //Add titles to ScrollView
-        for title in titleArray{
+        for title in titleLabelArray{
             scrollView.addSubview(title)
         }
         
@@ -80,7 +98,7 @@ class HomeViewController: UIViewController {
             scrollView.addSubview(collectionView)
         }
         addLayoutConstraints()
-        //fetchAllMovies()
+        fetchAllMovies()
     }
     
     override func viewDidLayoutSubviews() {
@@ -89,10 +107,12 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: - API Management
+    ///fetchAllMovies() - creates an array of NetworkManagers to fetch movie data and copies the Movie data into arrayOfArrayMovies
     func fetchAllMovies(){
         var networkManagerArray = [NetworkManager]()
         
-        for index in 0..<Constants.numberOfMovieLists{
+        //Create a NetworkManager for each fetch type
+        for index in 0..<Constants.numberOfCollectionViewMovieLists{
             let networkManager = NetworkManager()
             switch(index){
                 case 0:
@@ -109,11 +129,10 @@ class HomeViewController: UIViewController {
             networkManagerArray.append(networkManager)
         }
  
-        // Assign fetched API movie data to our movieArray to display in our collectionView
+        // Assign fetched API movie data to our arrayOfArrayMovies
         DispatchQueue.main.asyncAfter(deadline: .now() + 11) {
-            for index in 0..<Constants.numberOfMovieLists{
-                self.movieArray[index] = networkManagerArray[index].fetchedMovies.shuffled()
-
+            for index in 0..<Constants.numberOfCollectionViewMovieLists{
+                self.arrayOfArrayMovies[index] = networkManagerArray[index].fetchedMovies.shuffled()
             }
             
             DispatchQueue.main.async {
@@ -138,46 +157,45 @@ class HomeViewController: UIViewController {
         constraints.append(scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
         
         //Title0
-        constraints.append(titleArray[0].topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10))
-        constraints.append(titleArray[0].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
-        constraints.append(titleArray[0].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
+        constraints.append(titleLabelArray[0].topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10))
+        constraints.append(titleLabelArray[0].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
+        constraints.append(titleLabelArray[0].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
        
         //Title1
-        constraints.append(titleArray[1].topAnchor.constraint(equalTo: collectionViewArray[0].bottomAnchor, constant: 20))
-        constraints.append(titleArray[1].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
-        constraints.append(titleArray[1].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
+        constraints.append(titleLabelArray[1].topAnchor.constraint(equalTo: collectionViewArray[0].bottomAnchor, constant: 20))
+        constraints.append(titleLabelArray[1].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
+        constraints.append(titleLabelArray[1].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
         //Title2
-        constraints.append(titleArray[2].topAnchor.constraint(equalTo: collectionViewArray[1].bottomAnchor, constant: 20))
-        constraints.append(titleArray[2].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
-        constraints.append(titleArray[2].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
+        constraints.append(titleLabelArray[2].topAnchor.constraint(equalTo: collectionViewArray[1].bottomAnchor, constant: 20))
+        constraints.append(titleLabelArray[2].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
+        constraints.append(titleLabelArray[2].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
         //Title3
-        constraints.append(titleArray[3].topAnchor.constraint(equalTo: collectionViewArray[2].bottomAnchor, constant: 20))
-        constraints.append(titleArray[3].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
-        constraints.append(titleArray[3].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
+        constraints.append(titleLabelArray[3].topAnchor.constraint(equalTo: collectionViewArray[2].bottomAnchor, constant: 20))
+        constraints.append(titleLabelArray[3].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
+        constraints.append(titleLabelArray[3].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         
         // CollectionView0
-        constraints.append(collectionViewArray[0].topAnchor.constraint(equalTo: titleArray[0].bottomAnchor, constant: 10))
+        constraints.append(collectionViewArray[0].topAnchor.constraint(equalTo: titleLabelArray[0].bottomAnchor, constant: 10))
         constraints.append(collectionViewArray[0].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[0].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[0].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
 
         // CollectionView1
-        constraints.append(collectionViewArray[1].topAnchor.constraint(equalTo: titleArray[1].bottomAnchor, constant: 10))
+        constraints.append(collectionViewArray[1].topAnchor.constraint(equalTo: titleLabelArray[1].bottomAnchor, constant: 10))
         constraints.append(collectionViewArray[1].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[1].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[1].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
         
         // CollectionView2
-        constraints.append(collectionViewArray[2].topAnchor.constraint(equalTo: titleArray[2].bottomAnchor, constant: 10))
+        constraints.append(collectionViewArray[2].topAnchor.constraint(equalTo: titleLabelArray[2].bottomAnchor, constant: 10))
         constraints.append(collectionViewArray[2].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[2].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[2].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
     
-
         // CollectionView3
-        constraints.append(collectionViewArray[3].topAnchor.constraint(equalTo: titleArray[3].bottomAnchor, constant: 10))
+        constraints.append(collectionViewArray[3].topAnchor.constraint(equalTo: titleLabelArray[3].bottomAnchor, constant: 10))
         constraints.append(collectionViewArray[3].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[3].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[3].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
@@ -192,14 +210,14 @@ extension HomeViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        movieArray[collectionView.tag].count
+        arrayOfArrayMovies[collectionView.tag].count
     }
    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
         cell.backgroundColor = .red
-            if let image = self.movieArray[collectionView.tag][indexPath.row].posterImage{
+            if let image = self.arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage{
                 cell.posterImage.image = image
             }
             return cell
@@ -212,11 +230,8 @@ extension HomeViewController: UICollectionViewDelegate {
         let movieDetailVC = MovieDetailViewController()
         
         //Pass the movie data to movieDetailVC
-        movieDetailVC.movie = self.movieArray[collectionView.tag][indexPath.row]
+        movieDetailVC.movie = self.arrayOfArrayMovies[collectionView.tag][indexPath.row]
         navigationController?.pushViewController(movieDetailVC, animated: true)
-        
-        
-        
      }
 }
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
