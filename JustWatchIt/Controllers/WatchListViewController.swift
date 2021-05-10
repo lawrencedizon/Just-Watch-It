@@ -17,7 +17,7 @@ class WatchListViewController: UIViewController {
         segmentedControl.backgroundColor = .black
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .selected)
-        segmentedControl.addTarget(self, action: #selector(segmentControl(_:)), for: UIControl.Event.valueChanged )
+        segmentedControl.addTarget(self, action: #selector(onPressegmentControlButton(_:)), for: UIControl.Event.valueChanged )
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
     }()
@@ -51,7 +51,9 @@ class WatchListViewController: UIViewController {
         sharedTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(sharedTableView)
     }
-    @objc func segmentControl(_ segmentedControl: UISegmentedControl) {
+    
+    //SegmentedControlButton action
+    @objc func onPressegmentControlButton(_ segmentedControl: UISegmentedControl) {
        switch (segmentedControl.selectedSegmentIndex) {
           case 0:
             print("Fetching WatchList")
@@ -80,7 +82,7 @@ class WatchListViewController: UIViewController {
         }
     }
     
-    // Core Data adding data
+    // Add record to CoreData graph
     func addRecord(title: String, year: Int, poster: Data, entityName: String){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -107,6 +109,24 @@ class WatchListViewController: UIViewController {
         }
     }
     
+    //FIXME: - Remove specific record
+    //I believe the fetch isn't properly retrieving.
+    //We should give the WatchListMovie and SeenlistMovie UUIDs
+    func removeRecord(movieTitle: String,from entityName: String){
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let context = appDelegate.persistentContainer.viewContext
+            let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            deleteFetch.predicate = NSPredicate(format: "title == %d", movieTitle)
+        
+            do {
+                try context.execute(deleteFetch)
+                try context.save()
+            } catch {
+               print ("There was an error")
+            }
+            
+    }
+    
     func fetchCoreDataMovies(of entityName: String){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -116,10 +136,10 @@ class WatchListViewController: UIViewController {
         do {
             if entityName == "WatchListMovie" {
                 let movieArray = try managedContext.fetch(fetchRequest) as! [WatchListMovie]
-                watchListMovieArray = movieArray
+                watchListMovieArray = movieArray.reversed()
             }else {
                 let movieArray = try managedContext.fetch(fetchRequest) as! [SeenListMovie]
-                seenListMovieArray = movieArray
+                seenListMovieArray = movieArray.reversed()
             }
         }catch let error as NSError {
             print("Could not fetch movie. \(error), \(error.userInfo)")
@@ -174,6 +194,25 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         250
+    }
+    
+    func tableView(_ tableView: UITableView,
+                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let modifyAction = UIContextualAction(style: .normal, title:  "Seen", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            let movie = self.watchListMovieArray[indexPath.row]
+            if let title = movie.title, let poster = movie.posterImage {
+                self.addRecord(title: title, year: Int(movie.year), poster: poster, entityName: "SeenListMovie")
+                print("Added movie to seenlist")
+                success(true)
+                
+            }
+            
+           
+            })
+        modifyAction.image = UIImage(named: "hammer")
+        modifyAction.backgroundColor = .orange
+        return UISwipeActionsConfiguration(actions: [modifyAction])
     }
 }
 
