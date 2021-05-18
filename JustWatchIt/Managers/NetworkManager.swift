@@ -5,7 +5,7 @@ import UIKit
 final class NetworkManager {
     //MARK: - Properties
     var fetchedMovies = [Movie]()
-    private let domainURLString = "https://api.themoviedb.org/3/"
+    private(set) var domainURLString = "https://api.themoviedb.org/3/"
 
     // MARK: - API Calling Functions
     func fetchMovies(query: String = "", type: ListTypes){

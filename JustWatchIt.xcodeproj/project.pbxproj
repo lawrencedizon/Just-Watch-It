@@ -12,7 +12,7 @@
 		900BD0F32602A453003EFBF8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900BD0F22602A453003EFBF8 /* SearchViewController.swift */; };
 		9027D4AC2639C57A00322066 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9027D4AA2639C57A00322066 /* Model.xcdatamodeld */; };
 		9027D4AE2639D22300322066 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9027D4AD2639D22300322066 /* MovieDetailView.swift */; };
-		9066D2BB263DBF59004581B6 /* JustWatchItTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9066D2BA263DBF59004581B6 /* JustWatchItTests.swift */; };
+		906C6D2E26544CEC009596D2 /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906C6D2D26544CEC009596D2 /* NetworkManagerTests.swift */; };
 		90733C7B25C8E445006717D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90733C7A25C8E445006717D2 /* AppDelegate.swift */; };
 		90733C7D25C8E445006717D2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90733C7C25C8E445006717D2 /* SceneDelegate.swift */; };
 		90733C8425C8E446006717D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90733C8325C8E446006717D2 /* Assets.xcassets */; };
@@ -43,8 +43,8 @@
 		9027D4AB2639C57A00322066 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		9027D4AD2639D22300322066 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		9066D2B8263DBF59004581B6 /* JustWatchItTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JustWatchItTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9066D2BA263DBF59004581B6 /* JustWatchItTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustWatchItTests.swift; sourceTree = "<group>"; };
 		9066D2BC263DBF59004581B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		906C6D2D26544CEC009596D2 /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
 		90733C7725C8E445006717D2 /* JustWatchIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustWatchIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90733C7A25C8E445006717D2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		90733C7C25C8E445006717D2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,8 +108,8 @@
 		9066D2B9263DBF59004581B6 /* JustWatchItTests */ = {
 			isa = PBXGroup;
 			children = (
-				9066D2BA263DBF59004581B6 /* JustWatchItTests.swift */,
 				9066D2BC263DBF59004581B6 /* Info.plist */,
+				906C6D2D26544CEC009596D2 /* NetworkManagerTests.swift */,
 			);
 			path = JustWatchItTests;
 			sourceTree = "<group>";
@@ -268,7 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9066D2BB263DBF59004581B6 /* JustWatchItTests.swift in Sources */,
+				906C6D2E26544CEC009596D2 /* NetworkManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
