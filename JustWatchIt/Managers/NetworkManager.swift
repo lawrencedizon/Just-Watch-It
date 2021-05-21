@@ -21,7 +21,7 @@ final class NetworkManager {
             case .topRated:
                 fetchURL = domainURLString + "movie/top_rated?api_key=\(Constants.API_KEY)&language=en-US&page=1"
             case .search:
-                fetchURL = domainURLString + "search/movie?api_key=\(Constants.API_KEY)&language=en-US&query=\(query)&page=1&include_adult=false"
+                fetchURL = domainURLString + "search/movie?api_key=\(Constants.API_KEY)&language=en-US&query=\(query)&page=1"
                 
         }
         print("Network call")
@@ -45,30 +45,40 @@ final class NetworkManager {
             
             //Data
             guard let data = data else {
-                print("We failed to get any data")
+                print("Error with the data, no data was downloaded")
                 return
             }
             
+            //FIXME: - Data(contentsOf:) has terrible performance because we are now fetching the data synchronously and the operation blocks the main thread.
             if let nowPlayingResponse = try? JSONDecoder().decode(NowPlayingResponse.self, from: data){
                 for item in nowPlayingResponse.results{
-                    if let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(item.poster_path)"), let backDropURL = URL(string: "https://image.tmdb.org/t/p/original//\(item.backdrop_path)"){
-                            guard let posterImage = try? Data(contentsOf: posterURL) else {
-                                print("posterImage could not be made")
-                                return
-                            }
-                            guard let backDropImage = try? Data(contentsOf: backDropURL) else {
-                                print("backDrop image could not be made")
-                                return
-                            }
-                        self?.fetchedMovies.append(Movie(title: item.original_title,posterImage: UIImage(data: posterImage), backDropImage: UIImage(data: backDropImage), year: item.release_date, storyLine: item.overview))
-                    }else{
-                        print("posterURL failed")
+                    
+                    //Decode Poster image
+                    guard let posterPath = item.poster_path,
+                          let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(posterPath)"),
+                          let posterImage = try? Data(contentsOf: posterURL)
+                    else {
+                        print("Failed to decode posterImage for \(item.original_title!)")
+                        return
                     }
+                    
+                    //Decode BackDrop image
+                    guard let backDropPath = item.backdrop_path,
+                          let backDropURL = URL(string: "https://image.tmdb.org/t/p/w500//\(backDropPath)"),
+                          let backDropImage = try? Data(contentsOf: backDropURL)
+                    else {
+                        print("Failed to decode backDropImage for \(item.original_title!)")
+                        return
+                    }
+                    
+                    //Add decoded data into our fetchedMovies Array
+                    self?.fetchedMovies.append(Movie(title: item.original_title!,posterImage: UIImage(data: posterImage), backDropImage: UIImage(data: backDropImage), year: item.release_date!, storyLine: item.overview!))
                 }
             }else{
                 print("Failed to decode nowPlayingResponse")
             }
         })
+        
         task.resume()
     }
     

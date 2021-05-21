@@ -7,12 +7,11 @@ struct NowPlayingResponse: Codable{
 }
 
 struct NowPlayingItem: Codable{
-    let original_title: String
-    let overview: String
-    //let genre_ids: [Int]
-    let poster_path: String
-    let backdrop_path: String
-    let release_date: String
+    let original_title: String?
+    let overview: String?
+    let poster_path: String?
+    let backdrop_path: String?
+    let release_date: String?
 }
 
 struct Movie {

@@ -130,7 +130,7 @@ class HomeViewController: UIViewController {
         }
  
         // Assign fetched API movie data to our arrayOfArrayMovies
-        DispatchQueue.main.asyncAfter(deadline: .now() + 11) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 14) {
             for index in 0..<Constants.numberOfCollectionViewMovieLists{
                 self.arrayOfArrayMovies[index] = networkManagerArray[index].fetchedMovies.shuffled()
             }
