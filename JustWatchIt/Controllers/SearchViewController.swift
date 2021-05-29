@@ -96,6 +96,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as! CustomTableViewCell
         let movie = self.searchResults[indexPath.row]
+        cell.selectionStyle = .none
         cell.posterImageView.url("\(GETMethods.LOWRESIMAGE)\(movie.posterImage)")
         cell.movieTitleLabel.text = movie.title + " (\(movie.year))"
         return cell

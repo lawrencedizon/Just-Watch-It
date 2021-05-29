@@ -184,7 +184,7 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
         }else if segmentedControl.selectedSegmentIndex == 1{
             let movie = seenListMovieArray[indexPath.row]
             if let title = movie.title, let posterImage = movie.posterImage {
-                cell.movieTitleLabel.text = "\(title) (\(movie.year))"
+                cell.movieTitleLabel.text = "\(title) (\(DateConverterHelper.getYear(date: String(movie.year)))"
                 cell.posterImageView.url("\(GETMethods.LOWRESIMAGE)\(posterImage)")
             }
         }

@@ -23,19 +23,21 @@ class TabBarViewController: UITabBarController {
     }
     
     func setupTabBarList(){
-        let navBarVC = UINavigationController()
+        let homeNavBarVC = UINavigationController()
+        let searchNavBarVC = UINavigationController()
+        
         let homeVC = HomeViewController()
-        navBarVC.viewControllers = [homeVC]
+        let searchVC = SearchViewController()
+        let watchListVC = WatchListViewController()
         
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
-        
-        let searchVC = SearchViewController()
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
-        
-        let watchListVC = WatchListViewController()
         watchListVC.tabBarItem = UITabBarItem(title: "Watch List", image: UIImage(systemName: "film.fill"), tag: 2)
         
-        let tabBarList = [navBarVC, searchVC, watchListVC]
+        homeNavBarVC.viewControllers = [homeVC]
+        searchNavBarVC.viewControllers = [searchVC]
+        
+        let tabBarList = [homeNavBarVC, searchNavBarVC, watchListVC]
         viewControllers = tabBarList
     }
 }
