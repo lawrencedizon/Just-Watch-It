@@ -17,11 +17,11 @@ struct NowPlayingItem: Codable{
 struct Movie {
     let title: String
     let storyLine: String
-    let posterImage: UIImage?
-    let backDropImage: UIImage?
+    let posterImage: String
+    let backDropImage: String
     let year: String
      
-    init(title: String, posterImage: UIImage? = nil, backDropImage: UIImage? = nil, year: String, storyLine: String){
+    init(title: String, posterImage: String, backDropImage: String, year: String, storyLine: String){
         self.title = title
         self.posterImage = posterImage
         self.backDropImage = backDropImage

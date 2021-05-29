@@ -130,7 +130,7 @@ class HomeViewController: UIViewController {
         }
  
         // Assign fetched API movie data to our arrayOfArrayMovies
-        DispatchQueue.main.asyncAfter(deadline: .now() + 14) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             for index in 0..<Constants.numberOfCollectionViewMovieLists{
                 self.arrayOfArrayMovies[index] = networkManagerArray[index].fetchedMovies.shuffled()
             }
@@ -217,9 +217,10 @@ extension HomeViewController: UICollectionViewDataSource{
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
         cell.backgroundColor = .red
-            if let image = self.arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage{
-                cell.posterImage.image = image
-            }
+        cell.posterImage.url( "https://image.tmdb.org/t/p/w500//\(arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage)")
+            //if let image = self.arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage{
+                //cell.posterImage.image = image
+            //}
             return cell
     }
 }

@@ -4,6 +4,7 @@ import UIKit
 /// This class manages  the API network calls to the TMDB API
 final class NetworkManager {
     //MARK: - Properties
+    static let imageCache = NSCache<NSString, UIImage>()
     var fetchedMovies = [Movie]()
     private(set) var domainURLString = "https://api.themoviedb.org/3/"
 
@@ -52,28 +53,31 @@ final class NetworkManager {
             //FIXME: - Data(contentsOf:) has terrible performance because we are now fetching the data synchronously and the operation blocks the main thread.
             if let nowPlayingResponse = try? JSONDecoder().decode(NowPlayingResponse.self, from: data){
                 for item in nowPlayingResponse.results{
-                    
-                    //Decode Poster image
-                    guard let posterPath = item.poster_path,
-                          let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(posterPath)"),
-                          let posterImage = try? Data(contentsOf: posterURL)
-                    else {
-                        print("Failed to decode posterImage for \(item.original_title!)")
-                        return
-                    }
-                    
-                    //Decode BackDrop image
-                    guard let backDropPath = item.backdrop_path,
-                          let backDropURL = URL(string: "https://image.tmdb.org/t/p/w500//\(backDropPath)"),
-                          let backDropImage = try? Data(contentsOf: backDropURL)
-                    else {
-                        print("Failed to decode backDropImage for \(item.original_title!)")
-                        return
-                    }
-                    
-                    //Add decoded data into our fetchedMovies Array
-                    self?.fetchedMovies.append(Movie(title: item.original_title!,posterImage: UIImage(data: posterImage), backDropImage: UIImage(data: backDropImage), year: item.release_date!, storyLine: item.overview!))
+                    self?.fetchedMovies.append(Movie(title: item.original_title!,posterImage: item.poster_path!, backDropImage: item.backdrop_path!, year: item.release_date!, storyLine: item.overview!))
                 }
+            
+                    
+                    
+//                    //Decode Poster image
+//                    guard let posterPath = item.poster_path,
+//                          let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(posterPath)"),
+//                          let posterImage = try? Data(contentsOf: posterURL)
+//                    else {
+//                        print("Failed to decode posterImage for \(item.original_title!)")
+//                        return
+//                    }
+//
+//                    //Decode BackDrop image
+//                    guard let backDropPath = item.backdrop_path,
+//                          let backDropURL = URL(string: "https://image.tmdb.org/t/p/w500//\(backDropPath)"),
+//                          let backDropImage = try? Data(contentsOf: backDropURL)
+//                    else {
+//                        print("Failed to decode backDropImage for \(item.original_title!)")
+//                        return
+//                    }
+//
+//                    //Add decoded data into our fetchedMovies Array
+//
             }else{
                 print("Failed to decode nowPlayingResponse")
             }
@@ -81,6 +85,30 @@ final class NetworkManager {
         
         task.resume()
     }
-    
-    
+}
+
+extension UIImageView {
+    func url(_ url: String?) {
+        DispatchQueue.global().async { [weak self] in
+            guard let stringURL = url, let url = URL(string: stringURL) else {
+                return
+            }
+            func setImage(image:UIImage?) {
+                DispatchQueue.main.async {
+                    self?.image = image
+                }
+            }
+            let urlToString = url.absoluteString as NSString
+            if let cachedImage = NetworkManager.imageCache.object(forKey: urlToString) {
+                setImage(image: cachedImage)
+            } else if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    NetworkManager.imageCache.setObject(image, forKey: urlToString)
+                    setImage(image: image)
+                }
+            }else {
+                setImage(image: nil)
+            }
+        }
+    }
 }

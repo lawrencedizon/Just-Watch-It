@@ -8,8 +8,8 @@ class MovieDetailViewController: UIViewController {
     lazy var detailView: MovieDetailView = {
         let detailView = MovieDetailView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         detailView.addToWatchListButton.addTarget(self, action: #selector(addRecord(_:)), for: .touchUpInside)
-        detailView.posterImage.image = movie?.posterImage
-        detailView.backDropImage.image = movie?.backDropImage
+        //detailView.posterImage.image = movie?.posterImage
+        //detailView.backDropImage.image = movie?.backDropImage
         detailView.titleLabel.text = movie?.title
         detailView.yearLabel.text = movie?.year
         detailView.movieDescription.text = movie?.storyLine
@@ -34,10 +34,10 @@ class MovieDetailViewController: UIViewController {
         let record = NSManagedObject(entity: entity, insertInto: managedContext)
         
         // 3
-        guard let posterImage = movie?.posterImage?.jpeg else { return  }
+        //guard let posterImage = movie?.posterImage?.jpeg else { return  }
         record.setValue(movie?.title, forKey: "title")
         record.setValue(2000, forKey: "year")
-        record.setValue(posterImage, forKey: "posterImage")
+        //record.setValue(posterImage, forKey: "posterImage")
         
         // 4
         do {
