@@ -66,18 +66,16 @@ extension SearchViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         //API Network call
         let networkManager = NetworkManager()
-        guard let query = searchBar.text else {
-            print("No text was inputted into the search bar")
-            return
-        }
-        
-        networkManager.fetchMovies(query: query, type: .search)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.searchResults = networkManager.fetchedMovies
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+        if let query = searchBar.text  {
+                networkManager.fetchMovies(query: query.replacingOccurrences(of: " ", with: "-"), type: .search)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.searchResults = networkManager.fetchedMovies
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
+        }else{
+            print("No text was inputted into the search bar")
         }
     }
 }
@@ -88,10 +86,17 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
         searchResults.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieDetailVC = MovieDetailViewController()
+        //Pass the movie data to movieDetailVC
+        movieDetailVC.movie = self.searchResults[indexPath.row]
+        navigationController?.pushViewController(movieDetailVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as! CustomTableViewCell
         let movie = self.searchResults[indexPath.row]
-        //cell.posterImageView.image = movie.posterImage
+        cell.posterImageView.url("\(GETMethods.LOWRESIMAGE)\(movie.posterImage)")
         cell.movieTitleLabel.text = movie.title + " (\(movie.year))"
         return cell
     }
@@ -99,4 +104,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         220
     }
+    
+    
 }

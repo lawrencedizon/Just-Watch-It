@@ -83,7 +83,7 @@ class WatchListViewController: UIViewController {
     }
     
     // Add record to CoreData graph
-    func addRecord(title: String, year: Int, poster: Data, entityName: String){
+    func addRecord(title: String, year: Int, poster: String, entityName: String){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -179,16 +179,15 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
             let movie = watchListMovieArray[indexPath.row]
             if let title = movie.title, let posterImage = movie.posterImage {
                 cell.movieTitleLabel.text = "\(title) (\(movie.year))"
-                cell.posterImageView.image = UIImage(data: posterImage)
+                cell.posterImageView.url("\(GETMethods.LOWRESIMAGE)\(posterImage)")
             }
         }else if segmentedControl.selectedSegmentIndex == 1{
             let movie = seenListMovieArray[indexPath.row]
             if let title = movie.title, let posterImage = movie.posterImage {
                 cell.movieTitleLabel.text = "\(title) (\(movie.year))"
-                cell.posterImageView.image = UIImage(data: posterImage)
+                cell.posterImageView.url("\(GETMethods.LOWRESIMAGE)\(posterImage)")
             }
         }
-        
         return cell
     }
     

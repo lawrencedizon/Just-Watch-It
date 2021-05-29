@@ -10,27 +10,26 @@ final class NetworkManager {
 
     // MARK: - API Calling Functions
     func fetchMovies(query: String = "", type: ListTypes){
-        var fetchURL = ""
+        var url = ""
         
         switch type {
             case .popular:
-                fetchURL = domainURLString + "movie/popular?api_key=\(Constants.API_KEY)&language=en-US&page=1"
+                url = "\(domainURLString)\(GETMethods.POPULAR)?api_key=\(Constants.API_KEY)"
             case .nowPlaying:
-                fetchURL = domainURLString + "movie/now_playing?api_key=\(Constants.API_KEY)&language=en-US&page=1"
+                url = "\(domainURLString)\(GETMethods.NOWPLAYING)?api_key=\(Constants.API_KEY)"
             case .upcoming:
-                fetchURL = domainURLString + "movie/upcoming?api_key=\(Constants.API_KEY)&language=en-US&page=1"
+                url = "\(domainURLString)\(GETMethods.UPCOMING)?api_key=\(Constants.API_KEY)"
             case .topRated:
-                fetchURL = domainURLString + "movie/top_rated?api_key=\(Constants.API_KEY)&language=en-US&page=1"
+                url = "\(domainURLString)\(GETMethods.TOPRATED)?api_key=\(Constants.API_KEY)"
             case .search:
-                fetchURL = domainURLString + "search/movie?api_key=\(Constants.API_KEY)&language=en-US&query=\(query)&page=1"
-                
+                url = "\(domainURLString)\(GETMethods.SEARCH)?api_key=\(Constants.API_KEY)&query=\(query)"
         }
         print("Network call")
-        print(fetchURL + "\n")
+        print(url + "\n")
 
-        guard let url = URL(string: fetchURL) else { return }
+        guard let fetchURL = URL(string: url) else { return }
         
-        let task = URLSession.shared.dataTask(with: url, completionHandler:  { [weak self] (data, response, error) in
+        let task = URLSession.shared.dataTask(with: fetchURL, completionHandler:  { [weak self] (data, response, error) in
             
             //Error
             if let error = error {
@@ -50,43 +49,25 @@ final class NetworkManager {
                 return
             }
             
-            //FIXME: - Data(contentsOf:) has terrible performance because we are now fetching the data synchronously and the operation blocks the main thread.
             if let nowPlayingResponse = try? JSONDecoder().decode(NowPlayingResponse.self, from: data){
                 for item in nowPlayingResponse.results{
-                    self?.fetchedMovies.append(Movie(title: item.original_title!,posterImage: item.poster_path!, backDropImage: item.backdrop_path!, year: item.release_date!, storyLine: item.overview!))
+                    if let title = item.original_title,
+                       let posterPath = item.poster_path,
+                       let backDropPath = item.backdrop_path,
+                       let year = item.release_date,
+                       let story = item.overview {
+                        self?.fetchedMovies.append(Movie(title: title,posterImage: posterPath, backDropImage: backDropPath, year: DateConverterHelper.getYear(date: year), storyLine: story))
+                    }
                 }
-            
-                    
-                    
-//                    //Decode Poster image
-//                    guard let posterPath = item.poster_path,
-//                          let posterURL = URL(string: "https://image.tmdb.org/t/p/w500//\(posterPath)"),
-//                          let posterImage = try? Data(contentsOf: posterURL)
-//                    else {
-//                        print("Failed to decode posterImage for \(item.original_title!)")
-//                        return
-//                    }
-//
-//                    //Decode BackDrop image
-//                    guard let backDropPath = item.backdrop_path,
-//                          let backDropURL = URL(string: "https://image.tmdb.org/t/p/w500//\(backDropPath)"),
-//                          let backDropImage = try? Data(contentsOf: backDropURL)
-//                    else {
-//                        print("Failed to decode backDropImage for \(item.original_title!)")
-//                        return
-//                    }
-//
-//                    //Add decoded data into our fetchedMovies Array
-//
             }else{
                 print("Failed to decode nowPlayingResponse")
             }
         })
-        
         task.resume()
     }
 }
 
+//MARK: - Download images and cache Extension
 extension UIImageView {
     func url(_ url: String?) {
         DispatchQueue.global().async { [weak self] in

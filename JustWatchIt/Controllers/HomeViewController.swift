@@ -99,6 +99,7 @@ class HomeViewController: UIViewController {
         }
         addLayoutConstraints()
         fetchAllMovies()
+       
     }
     
     override func viewDidLayoutSubviews() {
@@ -217,10 +218,7 @@ extension HomeViewController: UICollectionViewDataSource{
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
         cell.backgroundColor = .red
-        cell.posterImage.url( "https://image.tmdb.org/t/p/w500//\(arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage)")
-            //if let image = self.arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage{
-                //cell.posterImage.image = image
-            //}
+        cell.posterImage.url( "\(GETMethods.LOWRESIMAGE)\(arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage)")
             return cell
     }
 }
