@@ -24,6 +24,7 @@ class SearchViewController: UIViewController {
             tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
             tableView.translatesAutoresizingMaskIntoConstraints = false
             tableView.backgroundColor = .black
+            tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
             return tableView
     }()
     

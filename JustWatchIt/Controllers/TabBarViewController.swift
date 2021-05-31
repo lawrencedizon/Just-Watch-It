@@ -25,6 +25,7 @@ class TabBarViewController: UITabBarController {
     func setupTabBarList(){
         let homeNavBarVC = UINavigationController()
         let searchNavBarVC = UINavigationController()
+        let watchListNavBarVC = UINavigationController()
         
         let homeVC = HomeViewController()
         let searchVC = SearchViewController()
@@ -36,8 +37,9 @@ class TabBarViewController: UITabBarController {
         
         homeNavBarVC.viewControllers = [homeVC]
         searchNavBarVC.viewControllers = [searchVC]
+        watchListNavBarVC.viewControllers = [watchListVC]
         
-        let tabBarList = [homeNavBarVC, searchNavBarVC, watchListVC]
+        let tabBarList = [homeNavBarVC, searchNavBarVC, watchListNavBarVC]
         viewControllers = tabBarList
     }
 }

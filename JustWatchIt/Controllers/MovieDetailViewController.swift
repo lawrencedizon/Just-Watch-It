@@ -40,9 +40,12 @@ class MovieDetailViewController: UIViewController {
         
         // 3
         record.setValue(movie?.title, forKey: "title")
-        record.setValue(2000, forKey: "year")
+        if let year = movie?.year {
+            record.setValue(Int(DateConverterHelper.getYear(date: year)), forKey: "year")
+        }
         record.setValue(movie?.posterImage, forKey: "posterImage")
-        
+        record.setValue(movie?.backDropImage, forKey: "backdropImage")
+        record.setValue(movie?.storyLine, forKey: "storyLine")
         // 4
         do {
             try managedContext.save()

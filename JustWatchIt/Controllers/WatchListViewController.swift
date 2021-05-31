@@ -9,6 +9,9 @@ class WatchListViewController: UIViewController {
     private var watchListMovieArray = [WatchListMovie]()
     private var seenListMovieArray = [SeenListMovie]()
     
+    private var watchListMovieData = [Movie]()
+    private var seenListMovieData = [Movie]()
+    
     
     private let segmentedControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: ["Watchlist","Seen"])
@@ -29,8 +32,8 @@ class WatchListViewController: UIViewController {
         createTableView()
         
         //Core Data testing
-        //deleteRecords(of: "SeenListMovie")
-        //deleteRecords(of: "WatchListMovie")
+        deleteRecords(of: "SeenListMovie")
+        deleteRecords(of: "WatchListMovie")
         fetchCoreDataMovies(of: "WatchListMovie")
         sharedTableView.reloadData()
         layoutConstraints()
@@ -83,7 +86,7 @@ class WatchListViewController: UIViewController {
     }
     
     // Add record to CoreData graph
-    func addRecord(title: String, year: Int, poster: String, entityName: String){
+    func addRecord(title: String, year: Int, poster: String, backdrop: String, storyLine: String, entityName: String){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -100,6 +103,8 @@ class WatchListViewController: UIViewController {
         record.setValue(title, forKey: "title")
         record.setValue(year, forKey: "year")
         record.setValue(poster, forKey: "posterImage")
+        record.setValue(storyLine, forKey: "storyLine")
+        record.setValue(backdrop, forKey: "backdropImage")
         
         // 4
         do {
@@ -184,11 +189,37 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
         }else if segmentedControl.selectedSegmentIndex == 1{
             let movie = seenListMovieArray[indexPath.row]
             if let title = movie.title, let posterImage = movie.posterImage {
-                cell.movieTitleLabel.text = "\(title) (\(DateConverterHelper.getYear(date: String(movie.year)))"
+                cell.movieTitleLabel.text = "\(title) (\(DateConverterHelper.getYear(date: String(movie.year))))"
                 cell.posterImageView.url("\(GETMethods.LOWRESIMAGE)\(posterImage)")
             }
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movieDetailVC = MovieDetailViewController()
+        
+        if segmentedControl.selectedSegmentIndex == 0 {
+            //Pass the movie data to movieDetailVC
+           
+            let watchListMovie = self.watchListMovieArray[indexPath.row]
+            if let title = watchListMovie.title,
+               let poster = watchListMovie.posterImage,
+               let backdrop = watchListMovie.backdropImage,
+               let storyLine = watchListMovie.storyLine{
+                movieDetailVC.movie = Movie(title: title, posterImage: poster, backDropImage: backdrop, year: String(watchListMovie.year), storyLine: storyLine)
+            }
+           
+        }else if segmentedControl.selectedSegmentIndex == 1{
+            let seenListMovie = self.seenListMovieArray[indexPath.row]
+            if let title = seenListMovie.title,
+               let poster = seenListMovie.posterImage,
+               let backdrop = seenListMovie.backdropImage,
+               let storyLine = seenListMovie.storyLine{
+                movieDetailVC.movie = Movie(title: title, posterImage: poster, backDropImage: backdrop, year: String(seenListMovie.year), storyLine: storyLine)
+            }
+        }
+        navigationController?.pushViewController(movieDetailVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -200,8 +231,8 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     {
         let modifyAction = UIContextualAction(style: .normal, title:  "Seen", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             let movie = self.watchListMovieArray[indexPath.row]
-            if let title = movie.title, let poster = movie.posterImage {
-                self.addRecord(title: title, year: Int(movie.year), poster: poster, entityName: "SeenListMovie")
+            if let title = movie.title, let poster = movie.posterImage, let backdrop = movie.backdropImage, let storyLine = movie.storyLine {
+                self.addRecord(title: title, year: Int(movie.year), poster: poster, backdrop: backdrop, storyLine: storyLine, entityName: "SeenListMovie")
                 print("Added movie to seenlist")
                 success(true)
                 
