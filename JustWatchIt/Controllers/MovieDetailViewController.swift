@@ -5,6 +5,7 @@ import CoreData
 class MovieDetailViewController: UIViewController {
     static let identifier = "MovieDetailViewController"
     var movie: Movie?
+    
     lazy var detailView: MovieDetailView = {
         let detailView = MovieDetailView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
         detailView.addToWatchListButton.addTarget(self, action: #selector(addRecord(_:)), for: .touchUpInside)
@@ -17,6 +18,16 @@ class MovieDetailViewController: UIViewController {
         }
         
         detailView.titleLabel.text = movie?.title
+        if let genres = movie?.genres {
+            if genres.count > 3 {
+                detailView.genreLabel.text = GenreConverter.getGenreString(genreArray: Array(genres[1...3]))
+            }else{
+                detailView.genreLabel.text = GenreConverter.getGenreString(genreArray: genres)
+            }
+           
+           
+        }
+        
         detailView.yearLabel.text = movie?.year
         detailView.movieDescription.text = movie?.storyLine
         return detailView
@@ -46,6 +57,10 @@ class MovieDetailViewController: UIViewController {
         record.setValue(movie?.posterImage, forKey: "posterImage")
         record.setValue(movie?.backDropImage, forKey: "backdropImage")
         record.setValue(movie?.storyLine, forKey: "storyLine")
+        if let genres = movie?.genres {
+            record.setValue(GenreConverter.getGenreString(genreArray: genres), forKey: "genres")
+        }
+       
         // 4
         do {
             try managedContext.save()
@@ -64,4 +79,5 @@ class MovieDetailViewController: UIViewController {
         super.viewWillDisappear(false)
         UIView.setAnimationsEnabled(false)
     }
+    
 }

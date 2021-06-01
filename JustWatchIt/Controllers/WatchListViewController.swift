@@ -9,10 +9,6 @@ class WatchListViewController: UIViewController {
     private var watchListMovieArray = [WatchListMovie]()
     private var seenListMovieArray = [SeenListMovie]()
     
-    private var watchListMovieData = [Movie]()
-    private var seenListMovieData = [Movie]()
-    
-    
     private let segmentedControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: ["Watchlist","Seen"])
         segmentedControl.frame = CGRect(x: 110, y: 70, width: 170, height: 35)
@@ -32,8 +28,8 @@ class WatchListViewController: UIViewController {
         createTableView()
         
         //Core Data testing
-        deleteRecords(of: "SeenListMovie")
-        deleteRecords(of: "WatchListMovie")
+        //deleteRecords(of: "SeenListMovie")
+        //deleteRecords(of: "WatchListMovie")
         fetchCoreDataMovies(of: "WatchListMovie")
         sharedTableView.reloadData()
         layoutConstraints()
@@ -86,7 +82,7 @@ class WatchListViewController: UIViewController {
     }
     
     // Add record to CoreData graph
-    func addRecord(title: String, year: Int, poster: String, backdrop: String, storyLine: String, entityName: String){
+    func addRecord(title: String, year: Int, poster: String, backdrop: String, storyLine: String, genres: String, entityName: String ){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -105,6 +101,7 @@ class WatchListViewController: UIViewController {
         record.setValue(poster, forKey: "posterImage")
         record.setValue(storyLine, forKey: "storyLine")
         record.setValue(backdrop, forKey: "backdropImage")
+        record.setValue(genres, forKey: "genres")
         
         // 4
         do {
@@ -206,8 +203,9 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
             if let title = watchListMovie.title,
                let poster = watchListMovie.posterImage,
                let backdrop = watchListMovie.backdropImage,
-               let storyLine = watchListMovie.storyLine{
-                movieDetailVC.movie = Movie(title: title, posterImage: poster, backDropImage: backdrop, year: String(watchListMovie.year), storyLine: storyLine)
+               let storyLine = watchListMovie.storyLine,
+               let genres = watchListMovie.genres{
+                movieDetailVC.movie = Movie(title: title, posterImage: poster, backDropImage: backdrop, year: String(watchListMovie.year), storyLine: storyLine, genres: GenreConverter.getGenreArray(genreString: genres))
             }
            
         }else if segmentedControl.selectedSegmentIndex == 1{
@@ -216,7 +214,7 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
                let poster = seenListMovie.posterImage,
                let backdrop = seenListMovie.backdropImage,
                let storyLine = seenListMovie.storyLine{
-                movieDetailVC.movie = Movie(title: title, posterImage: poster, backDropImage: backdrop, year: String(seenListMovie.year), storyLine: storyLine)
+                movieDetailVC.movie = Movie(title: title, posterImage: poster, backDropImage: backdrop, year: String(seenListMovie.year), storyLine: storyLine, genres: [])
             }
         }
         navigationController?.pushViewController(movieDetailVC, animated: true)
@@ -231,8 +229,8 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     {
         let modifyAction = UIContextualAction(style: .normal, title:  "Seen", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             let movie = self.watchListMovieArray[indexPath.row]
-            if let title = movie.title, let poster = movie.posterImage, let backdrop = movie.backdropImage, let storyLine = movie.storyLine {
-                self.addRecord(title: title, year: Int(movie.year), poster: poster, backdrop: backdrop, storyLine: storyLine, entityName: "SeenListMovie")
+            if let title = movie.title, let poster = movie.posterImage, let backdrop = movie.backdropImage, let storyLine = movie.storyLine, let genres = movie.genres{
+                self.addRecord(title: title, year: Int(movie.year), poster: poster, backdrop: backdrop, storyLine: storyLine, genres: genres, entityName: "SeenListMovie")
                 print("Added movie to seenlist")
                 success(true)
                 

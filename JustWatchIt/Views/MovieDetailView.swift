@@ -16,11 +16,11 @@ class MovieDetailView: UIView {
     
     //movieInfoStackView is embedded into posterStackView
     lazy var movieInfoStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, yearLabel, addToWatchListButton])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, genreLabel, yearLabel, addToWatchListButton])
         stackView.axis = .vertical
         stackView.spacing = 5
         stackView.alignment = .top
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -91,7 +91,7 @@ class MovieDetailView: UIView {
     
     let genreLabel: UILabel = {
         let genreLabel = UILabel()
-        genreLabel.text = "Action · Adventure · Fantasy"
+        genreLabel.text = ""
         genreLabel.font = UIFont(name: "Helvetica", size: 15)
         genreLabel.textColor = .white
         return genreLabel
@@ -179,9 +179,6 @@ class MovieDetailView: UIView {
         constraints.append(storyStackView.topAnchor.constraint(equalTo: blurView.bottomAnchor,constant: 20))
         constraints.append(storyStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor))
         constraints.append(storyStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor))
-        
-//        constraints.append(addToWatchListButton.heightAnchor.constraint(equalToConstant: 35))
-//        constraints.append(addToWatchListButton.widthAnchor.constraint(equalToConstant: 200))
         
         //Activate constraints
         NSLayoutConstraint.activate(constraints)

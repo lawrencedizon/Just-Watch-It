@@ -56,7 +56,7 @@ final class NetworkManager {
                        let backDropPath = item.backdrop_path,
                        let year = item.release_date,
                        let story = item.overview {
-                        self?.fetchedMovies.append(Movie(title: title,posterImage: posterPath, backDropImage: backDropPath, year: DateConverterHelper.getYear(date: year), storyLine: story))
+                        self?.fetchedMovies.append(Movie(title: title,posterImage: posterPath, backDropImage: backDropPath, year: DateConverterHelper.getYear(date: year), storyLine: story, genres: item.genre_ids))
                     }
                 }
             }else{
