@@ -46,7 +46,7 @@ class SearchViewController: UIViewController {
         var constraints = [NSLayoutConstraint]()
         //SearchBar
         constraints.append(searchBar.leftAnchor.constraint(equalTo: view.leftAnchor))
-        constraints.append(searchBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 50))
+        constraints.append(searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor))
         constraints.append(searchBar.rightAnchor.constraint(equalTo: view.rightAnchor))
         constraints.append(searchBar.heightAnchor.constraint(equalToConstant: 70))
         

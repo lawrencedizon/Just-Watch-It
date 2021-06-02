@@ -122,8 +122,9 @@ class MovieDetailView: UIView {
  
     lazy var movieDescription: UITextView = {
         let movieDescription = UITextView()
-        movieDescription.text = "After the Vietnam war, a team of scientists explores an uncharted island in the Pacific, venturing into the domain of the mighty Kong, and must fight to escape a primal Eden."
         movieDescription.backgroundColor = .clear
+        movieDescription.isEditable = false
+        movieDescription.isUserInteractionEnabled = false
         movieDescription.textColor = .white
         movieDescription.font = UIFont(name: "Helvetica", size: 15)
         movieDescription.isScrollEnabled = false

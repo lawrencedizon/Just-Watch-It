@@ -41,13 +41,15 @@ class MovieDetailViewController: UIViewController {
     @objc func addRecord(_ sender: UIButton){
         if let title = movie?.title {
             if checkIfRecordExists(title: title, type: "WatchListMovie") {
-                detailView.addToWatchListButton.setTitleColor(UIColor.red, for: .normal)
-                detailView.addToWatchListButton.setTitle("already in Watchlist!", for: .normal)
+                detailView.addToWatchListButton.isHidden = true
                 return
+            }else{
+                detailView.addToWatchListButton.isHidden = false
             }
         }
-        detailView.addToWatchListButton.setTitleColor(UIColor.orange, for: .normal)
+        detailView.addToWatchListButton.setTitleColor(UIColor.green, for: .normal)
         detailView.addToWatchListButton.setTitle("added to Watchlist!", for: .normal)
+        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }

@@ -27,7 +27,7 @@ class WatchListViewController: UIViewController {
         view.addSubview(segmentedControl)
         createTableView()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName:"trash" ),style: .plain, target: self, action: #selector(deleteWatchListRecords))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName:"trash" ),style: .plain, target: self, action: #selector(deleteWatchListRecords))
         
         //Core Data testing
         //deleteRecords(of: "SeenListMovie")
@@ -49,6 +49,7 @@ class WatchListViewController: UIViewController {
         sharedTableView.dataSource = self
         sharedTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         sharedTableView.backgroundColor = .black
+        sharedTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         sharedTableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(sharedTableView)
     }
