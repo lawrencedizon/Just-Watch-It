@@ -8,7 +8,13 @@ class MovieDetailViewController: UIViewController {
     
     lazy var detailView: MovieDetailView = {
         let detailView = MovieDetailView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
-        detailView.addToWatchListButton.addTarget(self, action: #selector(addRecord(_:)), for: .touchUpInside)
+        if let title = movie?.title {
+            if !checkIfRecordExists(title: title, type: "WatchListMovie") {
+                detailView.addToWatchListButton.setTitle("+ add to Watchlist", for: .normal)
+            detailView.addToWatchListButton.addTarget(self, action: #selector(addRecord(_:)), for: .touchUpInside)
+            }
+        }
+        
         if let posterImage = movie?.posterImage {
             detailView.posterImage.url("\(GETMethods.LOWRESIMAGE)\(posterImage)")
         }
@@ -24,8 +30,6 @@ class MovieDetailViewController: UIViewController {
             }else{
                 detailView.genreLabel.text = GenreConverter.getGenreString(genreArray: genres)
             }
-           
-           
         }
         
         detailView.yearLabel.text = movie?.year
@@ -33,8 +37,17 @@ class MovieDetailViewController: UIViewController {
         return detailView
     }()
     
+    
+    
     // Core Data adding data
     @objc func addRecord(_ sender: UIButton){
+        if let title = movie?.title {
+            if checkIfRecordExists(title: title, type: "WatchListMovie") {
+                detailView.addToWatchListButton.setTitleColor(UIColor.red, for: .normal)
+                detailView.addToWatchListButton.setTitle("already in Watchlist!", for: .normal)
+                return
+            }
+        }
         detailView.addToWatchListButton.setTitleColor(UIColor.orange, for: .normal)
         detailView.addToWatchListButton.setTitle("added to Watchlist!", for: .normal)
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -80,4 +93,25 @@ class MovieDetailViewController: UIViewController {
         UIView.setAnimationsEnabled(false)
     }
     
+    func checkIfRecordExists(title: String, type: String) -> Bool {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return false
+        }
+        // 1
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: type)
+        fetchRequest.predicate = NSPredicate(format: "title LIKE %@" ,title)
+
+        do {
+            let count = try managedContext.count(for: fetchRequest)
+            if count > 0 {
+                return true
+            }else {
+                return false
+            }
+        }catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return false
+        }
+    }
 }

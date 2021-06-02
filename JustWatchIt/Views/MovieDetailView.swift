@@ -115,7 +115,6 @@ class MovieDetailView: UIView {
     
     let addToWatchListButton: UIButton = {
         let watchListButton = UIButton()
-        watchListButton.setTitle("+ add to Watchlist", for: .normal)
         watchListButton.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
         watchListButton.setTitleColor(UIColor.white, for: .normal)
         return watchListButton

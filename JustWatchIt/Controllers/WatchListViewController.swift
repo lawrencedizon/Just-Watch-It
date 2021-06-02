@@ -176,6 +176,7 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier, for: indexPath) as! CustomTableViewCell
         cell.textLabel?.textColor = .white
         cell.backgroundColor = .black
+        cell.selectionStyle = .none
         
         if segmentedControl.selectedSegmentIndex == 0 {
             let movie = watchListMovieArray[indexPath.row]
