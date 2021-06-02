@@ -36,9 +36,7 @@ class MovieDetailViewController: UIViewController {
         detailView.movieDescription.text = movie?.storyLine
         return detailView
     }()
-    
-    
-    
+        
     // Core Data adding data
     @objc func addRecord(_ sender: UIButton){
         if let title = movie?.title {

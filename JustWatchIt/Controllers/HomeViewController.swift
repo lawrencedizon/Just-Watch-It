@@ -82,6 +82,9 @@ class HomeViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.backgroundColor = .black
+        
+        //Settings bar
+        //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName:"gearshape" ),style: .plain, target: self, action: #selector(openSettings))
     
         // Add ScrollView to main view
         view.addSubview(scrollView)
@@ -90,6 +93,7 @@ class HomeViewController: UIViewController {
         for title in titleLabelArray{
             scrollView.addSubview(title)
         }
+       
         
         //Add collectionViews to scrollView
         for collectionView in collectionViewArray {
@@ -102,9 +106,16 @@ class HomeViewController: UIViewController {
        
     }
     
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 380)
+    }
+    
+    //MARK: - NavigationBar Functions
+    
+    @objc func openSettings(){
+        print("Settings opened")
     }
     
     //MARK: - API Management
@@ -217,7 +228,7 @@ extension HomeViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell\(collectionView.tag)", for: indexPath) as! MovieCollectionViewCell
-        cell.backgroundColor = .red
+        cell.backgroundColor = .gray
         cell.posterImage.url( "\(GETMethods.LOWRESIMAGE)\(arrayOfArrayMovies[collectionView.tag][indexPath.row].posterImage)")
             return cell
     }

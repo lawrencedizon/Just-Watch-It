@@ -27,6 +27,8 @@ class WatchListViewController: UIViewController {
         view.addSubview(segmentedControl)
         createTableView()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName:"trash" ),style: .plain, target: self, action: #selector(deleteWatchListRecords))
+        
         //Core Data testing
         //deleteRecords(of: "SeenListMovie")
         //deleteRecords(of: "WatchListMovie")
@@ -63,7 +65,18 @@ class WatchListViewController: UIViewController {
           default:
             print("NONE AT ALL")
        }
-        sharedTableView.reloadData()
+    }
+    
+    //MARK: - NavigationBar Functions
+    @objc func deleteWatchListRecords(){
+        if segmentedControl.selectedSegmentIndex == 0 {
+            deleteRecords(of: "WatchListMovie")
+            fetchCoreDataMovies(of: "WatchListMovie")
+        }else if segmentedControl.selectedSegmentIndex == 1{
+            deleteRecords(of: "SeenListMovie")
+            fetchCoreDataMovies(of: "SeenListMovie")
+        }
+        
     }
     
     //MARK:- Core Data
@@ -79,6 +92,7 @@ class WatchListViewController: UIViewController {
         } catch {
            print ("There was an error")
         }
+        sharedTableView.reloadData()
     }
     
     // Add record to CoreData graph
@@ -146,6 +160,7 @@ class WatchListViewController: UIViewController {
         }catch let error as NSError {
             print("Could not fetch movie. \(error), \(error.userInfo)")
         }
+        sharedTableView.reloadData()
     }
     
     
@@ -239,8 +254,8 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
             
            
             })
-        modifyAction.image = UIImage(named: "hammer")
-        modifyAction.backgroundColor = .orange
+
+        modifyAction.backgroundColor = .systemGreen
         return UISwipeActionsConfiguration(actions: [modifyAction])
     }
 }

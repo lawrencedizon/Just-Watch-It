@@ -52,7 +52,7 @@ class SearchViewController: UIViewController {
         
         //TableView
         constraints.append(tableView.leftAnchor.constraint(equalTo: view.leftAnchor))
-        constraints.append(tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor))
+        constraints.append(tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 20))
         constraints.append(tableView.rightAnchor.constraint(equalTo: view.rightAnchor))
         constraints.append(tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
      
