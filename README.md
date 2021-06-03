@@ -2,7 +2,9 @@
 ## Screenshots
 
 <img src= "/screenshots/1.png" width = "150">&emsp;
-<img src= "/screenshots/2.png" width = "150">
+<img src= "/screenshots/2.png" width = "150">&emsp;
+<img src= "/screenshots/3.png" width = "150">&emsp;
+<img src= "/screenshots/4.png" width = "150">
 
 ---
 ## Description
@@ -31,10 +33,10 @@ It has a clean and simple interface that allows you to add movies to your WatchL
     - NSCache
 
 ### What I learned:
-- Writing the AutoLayout programatically can be quite the hassle compared to AutoLayout using Storyboards.
-- I had great practice with more UIKit fundamentals such as CollectionViews and TableViews. 
-- Networking practices using the URLSession framework to fetch and make download tasks from REST APIs. 
-- The importance of making asynchronous task downloads using GCD, which is essential to creating fast and responsive mobile applications.
+- Writing the AutoLayout programatically can be quite the hassle compared to using AutoLayout with Storyboards
+- I had great practice with more UIKit fundamentals such as CollectionViews and TableViews
+- Networking practices using the URLSession framework to fetch and make download tasks from REST APIs
+- The importance of making asynchronous task downloads using GCD, which is essential to creating fast and responsive mobile applications
 - More practice with CoreData persistent storage: storing, fetching, and deleting records
 
 
