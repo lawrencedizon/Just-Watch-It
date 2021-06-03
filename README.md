@@ -6,12 +6,16 @@
 
 ---
 ## Description
-A movie application that provides you an updated list of all the latest movies to date.
+JustWatchIt provides you an updated list of all the latest movies up-to-date.  
+It has a clean and simple interface that allows you to add movies to your WatchList for later viewing.
 
 ### Features
-- Save movies to a watchlist for later viewing
-- Search any movie from the TMDB database
-
+- Scrollable CollectionViews that display movie posters
+- Movie details are retrieved from the TMDB API where they are cached and quickly accessible for display
+- Save movies to a Watchlist for later viewing
+- Clear WatchList or SeenList
+- Search any movie from the TMDB API database
+- Swiping feature to mark moves the movie into SeenList
 ---
 
 ## Implementation
@@ -21,12 +25,20 @@ A movie application that provides you an updated list of all the latest movies t
 ### Frameworks
 - UIKit
 - TMDB API
+- URLSession
+- Core Data
+- Foundation
+    - NSCache
 
-<!--Addlater# ### What I learned:
+### What I learned:
+- Writing the AutoLayout programatically can be quite the hassle compared to AutoLayout using Storyboards.
+- I had great practice with more UIKit fundamentals such as CollectionViews and TableViews. 
+- Networking practices using the URLSession framework to fetch and make download tasks from REST APIs. 
+- The importance of making asynchronous task downloads using GCD, which is essential to creating fast and responsive mobile applications.
+- More practice with CoreData persistent storage: storing, fetching, and deleting records
+
 
 ## Author Info
-- Twitter - 
-
--->
+- [Twitter](https://twitter.com/ldizon8)
 
 
