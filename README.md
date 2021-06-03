@@ -1,27 +1,27 @@
 # Just Watch It
 ## Screenshots
 
-<img src= "/screenshots/1.png" width = "150">&emsp;
-<img src= "/screenshots/2.png" width = "150">&emsp;
-<img src= "/screenshots/3.png" width = "150">&emsp;
-<img src= "/screenshots/4.png" width = "150">
+<img src= "/screenshots/1.png" width = "180">&emsp;
+<img src= "/screenshots/2.png" width = "180">&emsp;
+<img src= "/screenshots/3.png" width = "180">&emsp;
+<img src= "/screenshots/4.png" width = "180">
 
 ---
 ## Description
 JustWatchIt provides you an updated list of all the latest movies up-to-date.  
-It has a clean and simple interface that allows you to add movies to your WatchList for later viewing.
+It has a clean and simple interface that lets you add movies to your WatchList for later viewing.
 
 ### Features
 - Scrollable CollectionViews that display movie posters
-- Movie details are retrieved from the TMDB API where they are cached and quickly accessible for display
+- Movie details are retrieved from the TMDB API where they are cached for quick display
 - Save movies to a Watchlist for later viewing
 - Clear WatchList or SeenList
 - Search any movie from the TMDB API database
-- Swiping feature to mark moves the movie into SeenList
+- Swiping feature to remove movie from WatchList and move it into SeenList
 ---
 
 ## Implementation
-- 100% Programatic UI (No Storyboard)
+- 100% Programmatic UI (No Storyboard)
 - MVC Design Pattern
 
 ### Frameworks
