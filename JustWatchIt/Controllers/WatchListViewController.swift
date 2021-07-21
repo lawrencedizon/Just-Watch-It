@@ -27,7 +27,7 @@ class WatchListViewController: UIViewController {
         view.addSubview(segmentedControl)
         createTableView()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName:"trash" ),style: .plain, target: self, action: #selector(deleteWatchListRecords))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName:"trash" ),style: .plain, target: self, action: #selector(deleteWatchListRecords))
         
         //Core Data testing
         //deleteRecords(of: "SeenListMovie")
@@ -58,26 +58,29 @@ class WatchListViewController: UIViewController {
     @objc func onPressegmentControlButton(_ segmentedControl: UISegmentedControl) {
        switch (segmentedControl.selectedSegmentIndex) {
           case 0:
-            print("Fetching WatchList")
             fetchCoreDataMovies(of: "WatchListMovie")
           case 1:
-            print("Fetching SeenList")
             fetchCoreDataMovies(of: "SeenListMovie")
           default:
-            print("NONE AT ALL")
+            return
        }
     }
     
-    //MARK: - NavigationBar Functions
+    
     @objc func deleteWatchListRecords(){
-        if segmentedControl.selectedSegmentIndex == 0 {
-            deleteRecords(of: "WatchListMovie")
-            fetchCoreDataMovies(of: "WatchListMovie")
-        }else if segmentedControl.selectedSegmentIndex == 1{
-            deleteRecords(of: "SeenListMovie")
-            fetchCoreDataMovies(of: "SeenListMovie")
-        }
-        
+        let alert = UIAlertController(title: "Warning", message: "Do you want to delete all records", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: UIAlertAction.Style.destructive, handler: { [weak self] action in
+            if self?.segmentedControl.selectedSegmentIndex == 0 {
+                
+                self?.deleteRecords(of: "WatchListMovie")
+                self?.fetchCoreDataMovies(of: "WatchListMovie")
+            }else if self?.segmentedControl.selectedSegmentIndex == 1{
+                self?.deleteRecords(of: "SeenListMovie")
+                self?.fetchCoreDataMovies(of: "SeenListMovie")
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK:- Core Data
@@ -126,22 +129,43 @@ class WatchListViewController: UIViewController {
         }
     }
     
-    //FIXME: - Remove specific record
-    //I believe the fetch isn't properly retrieving.
-    //We should give the WatchListMovie and SeenlistMovie UUIDs
     func removeRecord(movieTitle: String,from entityName: String){
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let context = appDelegate.persistentContainer.viewContext
             let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
-            deleteFetch.predicate = NSPredicate(format: "title == %d", movieTitle)
-        
-            do {
-                try context.execute(deleteFetch)
-                try context.save()
-            } catch {
-               print ("There was an error")
-            }
+            deleteFetch.predicate = NSPredicate(format: "title == %@", movieTitle)
             
+            do {
+                let objects = try context.fetch(deleteFetch)
+                for object in objects {
+                    context.delete(object as! NSManagedObject)
+                }
+                try context.save()
+            } catch _ {
+                print("Could not delete record")
+            }
+    }
+    
+    func checkIfRecordExists(title: String, type: String) -> Bool {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return false
+        }
+        // 1
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: type)
+        fetchRequest.predicate = NSPredicate(format: "title LIKE %@" ,title)
+
+        do {
+            let count = try managedContext.count(for: fetchRequest)
+            if count > 0 {
+                return true
+            }else {
+                return false
+            }
+        }catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return false
+        }
     }
     
     func fetchCoreDataMovies(of entityName: String){
@@ -244,20 +268,28 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView,
                     leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
+        if self.segmentedControl.selectedSegmentIndex == 0 {
         let modifyAction = UIContextualAction(style: .normal, title:  "Seen", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            let movie = self.watchListMovieArray[indexPath.row]
-            if let title = movie.title, let poster = movie.posterImage, let backdrop = movie.backdropImage, let storyLine = movie.storyLine, let genres = movie.genres{
-                self.addRecord(title: title, year: Int(movie.year), poster: poster, backdrop: backdrop, storyLine: storyLine, genres: genres, entityName: "SeenListMovie")
-                print("Added movie to seenlist")
-                success(true)
-                
-            }
-            
-           
+                let movie = self.watchListMovieArray[indexPath.row]
+                guard let title = movie.title else { return }
+                if(self.checkIfRecordExists(title: title, type: "SeenListMovie")){
+                    return
+                }else{
+                    if let poster = movie.posterImage, let backdrop = movie.backdropImage, let storyLine = movie.storyLine, let genres = movie.genres{
+                        self.addRecord(title: title, year: Int(movie.year), poster: poster, backdrop: backdrop, storyLine: storyLine, genres: genres, entityName: "SeenListMovie")
+                        //delete record from watchList
+                        self.removeRecord(movieTitle: title, from: "WatchListMovie")
+                        self.fetchCoreDataMovies(of: "WatchListMovie")
+                        success(true)
+                        }
+                }
             })
 
         modifyAction.backgroundColor = .systemGreen
         return UISwipeActionsConfiguration(actions: [modifyAction])
+        }else{
+            return UISwipeActionsConfiguration()
+        }
     }
 }
 

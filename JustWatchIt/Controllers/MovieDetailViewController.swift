@@ -80,7 +80,6 @@ class MovieDetailViewController: UIViewController {
         }catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
-        print("Added to watchList")
     }
 
     override func viewDidLoad(){

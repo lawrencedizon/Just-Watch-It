@@ -65,14 +65,6 @@ class MovieDetailView: UIView {
         return titleLabel
     }()
     
-//    let directorLabel: UILabel = {
-//        let directorLabel = UILabel()
-//        directorLabel.text = "Director: Jordan Vogt-Roberts"
-//        directorLabel.font = UIFont(name: "Helvetica", size: 15)
-//        directorLabel.textColor = .white
-//        return directorLabel
-//    }()
-    
     let castLabel: UILabel = {
         let castLabel = UILabel()
         castLabel.text = "Cast"
@@ -83,7 +75,6 @@ class MovieDetailView: UIView {
     
     let storyLabel: UILabel = {
         let storyLabel = UILabel()
-        storyLabel.text = "Storyline"
         storyLabel.font = UIFont(name: "Helvetica-bold", size: 21)
         storyLabel.textColor = .white
         return storyLabel
@@ -91,7 +82,6 @@ class MovieDetailView: UIView {
     
     let genreLabel: UILabel = {
         let genreLabel = UILabel()
-        genreLabel.text = ""
         genreLabel.font = UIFont(name: "Helvetica", size: 15)
         genreLabel.textColor = .white
         return genreLabel
@@ -99,7 +89,6 @@ class MovieDetailView: UIView {
     
     let movieLengthLabel: UILabel = {
         let movieLengthLabel = UILabel()
-        movieLengthLabel.text = "2hr 09 min"
         movieLengthLabel.font = UIFont(name: "Helvetica", size: 15)
         movieLengthLabel.textColor = .white
         return movieLengthLabel
@@ -107,7 +96,6 @@ class MovieDetailView: UIView {
     
     let yearLabel: UILabel = {
         let yearLabel = UILabel()
-        yearLabel.text = "2017"
         yearLabel.font = UIFont(name: "Helvetica", size: 15)
         yearLabel.textColor = .white
         return yearLabel
@@ -145,8 +133,6 @@ class MovieDetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-  
     
     //MARK: - Auto Layout Constraints
     func addLayoutConstraints(){

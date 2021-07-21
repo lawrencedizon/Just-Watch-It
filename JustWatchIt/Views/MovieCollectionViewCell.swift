@@ -3,7 +3,6 @@ import UIKit
 class MovieCollectionViewCell: UICollectionViewCell {
     static var identifier: String = "Cell"
     lazy var posterImage: UIImageView = {
-        //let imageView = UIImageView(frame: CGRect(x: 0, y:0, width: 170, height: 230))
         let imageView = UIImageView(frame: CGRect(x: 0, y:0, width: frame.width, height: frame.height))
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = false

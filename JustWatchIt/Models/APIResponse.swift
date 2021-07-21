@@ -31,6 +31,4 @@ struct Movie {
         self.storyLine = storyLine
         self.genres = genres
     }
-    
-    
 }

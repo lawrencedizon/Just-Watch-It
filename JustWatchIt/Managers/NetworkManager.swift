@@ -24,9 +24,6 @@ final class NetworkManager {
             case .search:
                 url = "\(domainURLString)\(GETMethods.SEARCH)?api_key=\(Constants.API_KEY)&query=\(query)"
         }
-        print("Network call")
-        print(url + "\n")
-
         guard let fetchURL = URL(string: url) else { return }
         
         let task = URLSession.shared.dataTask(with: fetchURL, completionHandler:  { [weak self] (data, response, error) in

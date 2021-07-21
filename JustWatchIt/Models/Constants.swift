@@ -1,5 +1,8 @@
+import Keys
+
+private let keys = JustWatchItKeys()
 struct Constants {
-    static let API_KEY = ""
+    static let API_KEY = keys.apiKey
     static let numberOfCollectionViewMovieLists = 4
 }
 

@@ -65,6 +65,7 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
         searchBar.resignFirstResponder()
+        
         //API Network call
         let networkManager = NetworkManager()
         if let query = searchBar.text  {
