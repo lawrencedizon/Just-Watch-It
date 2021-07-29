@@ -1,13 +1,15 @@
 import UIKit
 import CoreData
+import Lottie
 
 ///WatchListsVC displays the movies that is on their Watchlist. It also shows them a list of movies that they finished watching.
 class WatchListViewController: UIViewController {
-    
+    //MARK: - Properties
     //The WatchList and SeenList uses one TableView to display data
     private var sharedTableView: UITableView!
     private var watchListMovieArray = [WatchListMovie]()
     private var seenListMovieArray = [SeenListMovie]()
+    
     
     private let segmentedControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: ["Watchlist","Seen"])
@@ -21,28 +23,35 @@ class WatchListViewController: UIViewController {
         return segmentedControl
     }()
     
+    var animationView: AnimationView!
+    
+    //MARK: - LifeCycle
     override func loadView() {
         super.loadView()
         view.backgroundColor = .black
         view.addSubview(segmentedControl)
         createTableView()
-        
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName:"trash" ),style: .plain, target: self, action: #selector(deleteWatchListRecords))
-        
+
         //Core Data testing
         //deleteRecords(of: "SeenListMovie")
         //deleteRecords(of: "WatchListMovie")
         fetchCoreDataMovies(of: "WatchListMovie")
         sharedTableView.reloadData()
+        
+        setupAnimation()
+        view.addSubview(animationView)
         layoutConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(true)
         fetchCoreDataMovies(of: "WatchListMovie")
         sharedTableView.reloadData()
     }
     
+    //MARK:- Methods
     private func createTableView(){
         sharedTableView = UITableView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: 0.75 * view.bounds.height))
         sharedTableView.delegate = self
@@ -60,12 +69,12 @@ class WatchListViewController: UIViewController {
           case 0:
             fetchCoreDataMovies(of: "WatchListMovie")
           case 1:
+            stopAnimation()
             fetchCoreDataMovies(of: "SeenListMovie")
           default:
             return
        }
     }
-    
     
     @objc func deleteWatchListRecords(){
         let alert = UIAlertController(title: "Warning", message: "Do you want to delete all records", preferredStyle: UIAlertController.Style.alert)
@@ -83,6 +92,48 @@ class WatchListViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
+    private func layoutConstraints(){
+        var constraints = [NSLayoutConstraint]()
+        //segmentedControl
+        constraints.append(segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25))
+        constraints.append(segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        
+        //sharedTableView
+        constraints.append(sharedTableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 25))
+        constraints.append(sharedTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20))
+        constraints.append(sharedTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 20))
+        constraints.append(sharedTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
+        
+        //animationView
+        constraints.append(animationView.heightAnchor.constraint(equalToConstant: 100))
+        constraints.append(animationView.widthAnchor.constraint(equalToConstant: 100))
+        
+        constraints.append(animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100))
+    
+        
+        //Activate constraints
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    //MARK: - Animation
+    private func setupAnimation(){
+        animationView = AnimationView()
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.isHidden = true
+        animationView.animation = Animation.named("swipe-right")
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+    }
+    
+    private func stopAnimation(){
+        if let animView = animationView {
+            animView.stop()
+            animView.isHidden = true
+        }
+    }
+    
     //MARK:- Core Data
     func deleteRecords(of entityName: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -97,6 +148,7 @@ class WatchListViewController: UIViewController {
            print ("There was an error")
         }
         sharedTableView.reloadData()
+        stopAnimation()
     }
     
     // Add record to CoreData graph
@@ -144,6 +196,7 @@ class WatchListViewController: UIViewController {
             } catch _ {
                 print("Could not delete record")
             }
+        
     }
     
     func checkIfRecordExists(title: String, type: String) -> Bool {
@@ -189,21 +242,7 @@ class WatchListViewController: UIViewController {
     }
     
     
-    private func layoutConstraints(){
-        var constraints = [NSLayoutConstraint]()
-        //segmentedControl
-        constraints.append(segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25))
-        constraints.append(segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-        
-        //sharedTableView
-        constraints.append(sharedTableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 25))
-        constraints.append(sharedTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20))
-        constraints.append(sharedTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 20))
-        constraints.append(sharedTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
-        
-        //Activate constraints
-        NSLayoutConstraint.activate(constraints)
-    }
+    
 }
 
 //MARK: - TableView Delegate Functions
@@ -219,6 +258,12 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
         cell.selectionStyle = .none
         
         if segmentedControl.selectedSegmentIndex == 0 {
+            if(watchListMovieArray.count == 1){
+                animationView.play()
+                animationView.isHidden = false
+            }else{
+                stopAnimation()
+            }
             let movie = watchListMovieArray[indexPath.row]
             if let title = movie.title, let posterImage = movie.posterImage {
                 cell.movieTitleLabel.text = "\(title) (\(movie.year))"
@@ -269,7 +314,7 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
                     leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
         if self.segmentedControl.selectedSegmentIndex == 0 {
-        let modifyAction = UIContextualAction(style: .normal, title:  "Seen", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let modifyAction = UIContextualAction(style: .normal, title:  "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
                 let movie = self.watchListMovieArray[indexPath.row]
                 guard let title = movie.title else { return }
                 if(self.checkIfRecordExists(title: title, type: "SeenListMovie")){
@@ -279,13 +324,14 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
                         self.addRecord(title: title, year: Int(movie.year), poster: poster, backdrop: backdrop, storyLine: storyLine, genres: genres, entityName: "SeenListMovie")
                         //delete record from watchList
                         self.removeRecord(movieTitle: title, from: "WatchListMovie")
+                        
                         self.fetchCoreDataMovies(of: "WatchListMovie")
-                        success(true)
+                        self.stopAnimation()
                         }
                 }
             })
 
-        modifyAction.backgroundColor = .systemGreen
+        modifyAction.backgroundColor = .black
         return UISwipeActionsConfiguration(actions: [modifyAction])
         }else{
             return UISwipeActionsConfiguration()

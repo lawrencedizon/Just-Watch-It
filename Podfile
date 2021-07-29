@@ -6,6 +6,7 @@ target 'JustWatchIt' do
   use_frameworks!
 
   # Pods for JustWatchIt
+  pod 'lottie-ios'
   plugin 'cocoapods-keys', {
     :project => "JustWatchIt",
     :keys => [

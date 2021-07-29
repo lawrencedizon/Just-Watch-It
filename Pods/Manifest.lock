@@ -1,8 +1,14 @@
 PODS:
   - Keys (1.0.1)
+  - lottie-ios (3.2.3)
 
 DEPENDENCIES:
   - Keys (from `Pods/CocoaPodsKeys`)
+  - lottie-ios
+
+SPEC REPOS:
+  trunk:
+    - lottie-ios
 
 EXTERNAL SOURCES:
   Keys:
@@ -10,7 +16,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Keys: a576f4c9c1c641ca913a959a9c62ed3f215a8de9
+  lottie-ios: c058aeafa76daa4cf64d773554bccc8385d0150e
 
-PODFILE CHECKSUM: 55b9aeae5b516d0a291113da7b8d23a43da09415
+PODFILE CHECKSUM: c48da570d0191c4192be620c725b3ea36b7fbbe2
 
 COCOAPODS: 1.10.1

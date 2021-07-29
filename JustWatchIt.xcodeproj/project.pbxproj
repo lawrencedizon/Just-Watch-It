@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,10 +22,12 @@
 		9096273F26168FF500BEBB42 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9096273E26168FF500BEBB42 /* APIResponse.swift */; };
 		90A7EA1226091452004491BC /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A7EA1126091452004491BC /* MovieCollectionViewCell.swift */; };
 		90ABA4932665BCC300A7F6C8 /* GenreConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90ABA4922665BCC300A7F6C8 /* GenreConverter.swift */; };
+		90C1C14826B327FC0045698E /* NetworkManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90C1C14726B327FC0045698E /* NetworkManagerError.swift */; };
 		90D5D66F26311005001992D8 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D5D66E26311005001992D8 /* CustomTableViewCell.swift */; };
 		90E4DBCB261C138D00BB32C7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E4DBCA261C138D00BB32C7 /* NetworkManager.swift */; };
 		90E4DBCF261C15A500BB32C7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E4DBCE261C15A500BB32C7 /* Constants.swift */; };
 		90E854A726082C360060ABCD /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E854A626082C360060ABCD /* WatchListViewController.swift */; };
+		90FC651326B33BA90014C32B /* swipe-right.json in Resources */ = {isa = PBXBuildFile; fileRef = 90FC651226B33BA90014C32B /* swipe-right.json */; };
 		B0BD8F302E0FA4F2ABBD0802 /* Pods_JustWatchIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A2CE582257A6BF7C16EA8AE /* Pods_JustWatchIt.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,10 +62,12 @@
 		9096273E26168FF500BEBB42 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
 		90A7EA1126091452004491BC /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		90ABA4922665BCC300A7F6C8 /* GenreConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreConverter.swift; sourceTree = "<group>"; };
+		90C1C14726B327FC0045698E /* NetworkManagerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerError.swift; sourceTree = "<group>"; };
 		90D5D66E26311005001992D8 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		90E4DBCA261C138D00BB32C7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		90E4DBCE261C15A500BB32C7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		90E854A626082C360060ABCD /* WatchListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListViewController.swift; sourceTree = "<group>"; };
+		90FC651226B33BA90014C32B /* swipe-right.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "swipe-right.json"; sourceTree = "<group>"; };
 		922D0D92B7B43AA7C8230B0C /* Pods-JustWatchIt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustWatchIt.release.xcconfig"; path = "Target Support Files/Pods-JustWatchIt/Pods-JustWatchIt.release.xcconfig"; sourceTree = "<group>"; };
 		9FD69047B9A4C7A0DADEAC00 /* Pods-JustWatchIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustWatchIt.debug.xcconfig"; path = "Target Support Files/Pods-JustWatchIt/Pods-JustWatchIt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +113,7 @@
 		900BD0FA2602A677003EFBF8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				90FC651426B35D6F0014C32B /* Animation */,
 				90733C8325C8E446006717D2 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -158,6 +163,7 @@
 		90733C7925C8E445006717D2 /* JustWatchIt */ = {
 			isa = PBXGroup;
 			children = (
+				90C1C14626B327590045698E /* Utilities */,
 				90763B8C2662045A00CF767A /* Helper */,
 				90733C8825C8E446006717D2 /* Info.plist */,
 				90733C7C25C8E445006717D2 /* SceneDelegate.swift */,
@@ -182,6 +188,14 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		90C1C14626B327590045698E /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				90C1C14726B327FC0045698E /* NetworkManagerError.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		90E4DBC9261C136A00BB32C7 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,13 +204,20 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		90FC651426B35D6F0014C32B /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				90FC651226B33BA90014C32B /* swipe-right.json */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 		C47E3D08AB4DD9BC450C3973 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				9FD69047B9A4C7A0DADEAC00 /* Pods-JustWatchIt.debug.xcconfig */,
 				922D0D92B7B43AA7C8230B0C /* Pods-JustWatchIt.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -297,6 +318,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90FC651326B33BA90014C32B /* swipe-right.json in Resources */,
 				90733C8725C8E446006717D2 /* LaunchScreen.storyboard in Resources */,
 				90733C8425C8E446006717D2 /* Assets.xcassets in Resources */,
 			);
@@ -366,6 +388,7 @@
 				90762E1E2637735600DE527B /* MovieDetailViewController.swift in Sources */,
 				9096273F26168FF500BEBB42 /* APIResponse.swift in Sources */,
 				9027D4AE2639D22300322066 /* MovieDetailView.swift in Sources */,
+				90C1C14826B327FC0045698E /* NetworkManagerError.swift in Sources */,
 				900BD0ED2602A435003EFBF8 /* TabBarViewController.swift in Sources */,
 				90ABA4932665BCC300A7F6C8 /* GenreConverter.swift in Sources */,
 				90733C7B25C8E445006717D2 /* AppDelegate.swift in Sources */,

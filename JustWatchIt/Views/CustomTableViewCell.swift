@@ -21,6 +21,7 @@ class CustomTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         return label
     }()
+    
  
     //MARK: - View LifeCycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

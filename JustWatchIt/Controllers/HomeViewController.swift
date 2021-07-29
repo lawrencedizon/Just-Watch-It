@@ -98,9 +98,11 @@ class HomeViewController: UIViewController {
             scrollView.addSubview(collectionView)
         }
         addLayoutConstraints()
-        fetchAllMovies()
+        fetch()
        
     }
+       
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -108,8 +110,24 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: - API Management
+    /// Main fetch call
+    private func fetch(){
+        fetchAllMovies { (result) in
+            switch result{
+            case .success:
+                for collectionView in self.collectionViewArray{
+                    collectionView.reloadData()
+                }
+                return
+            case .failure(let error):
+                self.presentRetryAC()
+                print(error)
+            }
+        }
+    }
+    
     ///fetchAllMovies() - creates an array of NetworkManagers to fetch movie data and copies the Movie data into arrayOfArrayMovies
-    func fetchAllMovies(){
+    func fetchAllMovies(completion: @escaping (Result<[[Movie]],NetworkManagerError>) -> Void){
         var networkManagerArray = [NetworkManager]()
         
         //Create a NetworkManager for each fetch type
@@ -133,16 +151,27 @@ class HomeViewController: UIViewController {
         // Assign fetched API movie data to our arrayOfArrayMovies
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             for index in 0..<Constants.numberOfCollectionViewMovieLists{
-                self.arrayOfArrayMovies[index] = networkManagerArray[index].fetchedMovies.shuffled()
-            }
-            
-            DispatchQueue.main.async {
-                for collectionView in self.collectionViewArray{
-                    collectionView.reloadData()
+                
+                //Case no movies were fetched
+                if(networkManagerArray[index].fetchedMovies.count == 0){
+                    completion(.failure(.unableToFetch))
+                }else{
+                    self.arrayOfArrayMovies[index] = networkManagerArray[index].fetchedMovies.shuffled()
                 }
             }
+            completion(.success(self.arrayOfArrayMovies))
         }
     }
+    
+    private func presentRetryAC(){
+        let ac = UIAlertController(title: "Retry", message: "Sorry we could not fetch your movies, would you like to try again?", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (ac) -> Void in
+            self.fetch()
+        }))
+        ac.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
+        present(ac, animated: true)
+    }
+    
    
     //MARK: - User Interface
     override var preferredStatusBarStyle: UIStatusBarStyle {
