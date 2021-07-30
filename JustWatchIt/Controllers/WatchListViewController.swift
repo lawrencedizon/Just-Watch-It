@@ -10,10 +10,8 @@ class WatchListViewController: UIViewController {
     private var watchListMovieArray = [WatchListMovie]()
     private var seenListMovieArray = [SeenListMovie]()
     
-    
     private let segmentedControl: UISegmentedControl = {
        let segmentedControl = UISegmentedControl(items: ["Watchlist","Seen"])
-        segmentedControl.frame = CGRect(x: 110, y: 70, width: 170, height: 35)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.backgroundColor = .black
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
@@ -37,6 +35,7 @@ class WatchListViewController: UIViewController {
         //Core Data testing
         //deleteRecords(of: "SeenListMovie")
         //deleteRecords(of: "WatchListMovie")
+        
         fetchCoreDataMovies(of: "WatchListMovie")
         sharedTableView.reloadData()
         
@@ -53,7 +52,7 @@ class WatchListViewController: UIViewController {
     
     //MARK:- Methods
     private func createTableView(){
-        sharedTableView = UITableView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: 0.75 * view.bounds.height))
+        sharedTableView = UITableView()
         sharedTableView.delegate = self
         sharedTableView.dataSource = self
         sharedTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
@@ -81,7 +80,7 @@ class WatchListViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Delete", style: UIAlertAction.Style.destructive, handler: { [weak self] action in
             if self?.segmentedControl.selectedSegmentIndex == 0 {
-                
+
                 self?.deleteRecords(of: "WatchListMovie")
                 self?.fetchCoreDataMovies(of: "WatchListMovie")
             }else if self?.segmentedControl.selectedSegmentIndex == 1{
@@ -91,7 +90,6 @@ class WatchListViewController: UIViewController {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
     
     private func layoutConstraints(){
         var constraints = [NSLayoutConstraint]()
@@ -106,13 +104,12 @@ class WatchListViewController: UIViewController {
         constraints.append(sharedTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
         
         //animationView
-        constraints.append(animationView.heightAnchor.constraint(equalToConstant: 100))
-        constraints.append(animationView.widthAnchor.constraint(equalToConstant: 100))
+        constraints.append(animationView.heightAnchor.constraint(equalToConstant: 75))
+        constraints.append(animationView.widthAnchor.constraint(equalToConstant: 75))
         
         constraints.append(animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-        constraints.append(animationView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100))
+        constraints.append(animationView.topAnchor.constraint(equalTo: sharedTableView.topAnchor, constant: 80))
     
-        
         //Activate constraints
         NSLayoutConstraint.activate(constraints)
     }
@@ -145,7 +142,7 @@ class WatchListViewController: UIViewController {
             try context.execute(deleteRequest)
             try context.save()
         } catch {
-           print ("There was an error")
+            print("Unable to delete CoreData records. \(error)")
         }
         sharedTableView.reloadData()
         stopAnimation()
@@ -176,8 +173,8 @@ class WatchListViewController: UIViewController {
         // 4
         do {
             try managedContext.save()
-        }catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+        }catch {
+            print("Could not save Core Data records. \(error)")
         }
     }
     
@@ -193,10 +190,9 @@ class WatchListViewController: UIViewController {
                     context.delete(object as! NSManagedObject)
                 }
                 try context.save()
-            } catch _ {
-                print("Could not delete record")
+            } catch  {
+                print("Could not save remove single Core Data record. \(error)")
             }
-        
     }
     
     func checkIfRecordExists(title: String, type: String) -> Bool {
@@ -215,8 +211,8 @@ class WatchListViewController: UIViewController {
             }else {
                 return false
             }
-        }catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+        }catch {
+            print("Could not retrieve record from Core Data. \(error)")
             return false
         }
     }
@@ -235,14 +231,11 @@ class WatchListViewController: UIViewController {
                 let movieArray = try managedContext.fetch(fetchRequest) as! [SeenListMovie]
                 seenListMovieArray = movieArray.reversed()
             }
-        }catch let error as NSError {
-            print("Could not fetch movie. \(error), \(error.userInfo)")
+        }catch {
+            print("Could not fetch movies from \(entityName) in Core Data. \(error)")
         }
         sharedTableView.reloadData()
     }
-    
-    
-    
 }
 
 //MARK: - TableView Delegate Functions
@@ -311,8 +304,7 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView,
-                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
-    {
+                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?{
         if self.segmentedControl.selectedSegmentIndex == 0 {
         let modifyAction = UIContextualAction(style: .normal, title:  "", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
                 let movie = self.watchListMovieArray[indexPath.row]
@@ -324,10 +316,9 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
                         self.addRecord(title: title, year: Int(movie.year), poster: poster, backdrop: backdrop, storyLine: storyLine, genres: genres, entityName: "SeenListMovie")
                         //delete record from watchList
                         self.removeRecord(movieTitle: title, from: "WatchListMovie")
-                        
                         self.fetchCoreDataMovies(of: "WatchListMovie")
                         self.stopAnimation()
-                        }
+                    }
                 }
             })
 
@@ -337,10 +328,6 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource{
             return UISwipeActionsConfiguration()
         }
     }
-}
-
-extension UIImage {
-    var jpeg: Data? { jpegData(compressionQuality: 1) }  // QUALITY min = 0 / max = 1
 }
 
 

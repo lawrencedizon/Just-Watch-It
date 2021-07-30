@@ -76,8 +76,6 @@ extension SearchViewController: UISearchBarDelegate {
                     self.tableView.reloadData()
                 }
             }
-        }else{
-            print("No text was inputted into the search bar")
         }
     }
 }
@@ -107,6 +105,4 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         220
     }
-    
-    
 }

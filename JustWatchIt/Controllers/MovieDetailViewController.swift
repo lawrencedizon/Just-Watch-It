@@ -109,7 +109,7 @@ class MovieDetailViewController: UIViewController {
                 return false
             }
         }catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+            print("Could not fetch \(error), \(error.userInfo)")
             return false
         }
     }

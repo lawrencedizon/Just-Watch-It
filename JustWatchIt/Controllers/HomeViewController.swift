@@ -99,14 +99,6 @@ class HomeViewController: UIViewController {
         }
         addLayoutConstraints()
         fetch()
-       
-    }
-       
-    
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: view.bounds.size.width, height: view.bounds.size.height + 380)
     }
     
     //MARK: - API Management
@@ -119,9 +111,8 @@ class HomeViewController: UIViewController {
                     collectionView.reloadData()
                 }
                 return
-            case .failure(let error):
+            case .failure:
                 self.presentRetryAC()
-                print(error)
             }
         }
     }
@@ -186,6 +177,7 @@ class HomeViewController: UIViewController {
         constraints.append(scrollView.rightAnchor.constraint(equalTo: view.rightAnchor))
         constraints.append(scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
         
+        
         //Title0
         constraints.append(titleLabelArray[0].topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10))
         constraints.append(titleLabelArray[0].leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10))
@@ -229,6 +221,8 @@ class HomeViewController: UIViewController {
         constraints.append(collectionViewArray[3].leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(collectionViewArray[3].trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
         constraints.append(collectionViewArray[3].heightAnchor.constraint(equalToConstant: view.frame.width/2 + 50))
+        constraints.append(collectionViewArray[3].bottomAnchor.constraint(equalTo: scrollView.bottomAnchor))
+        
         
         //Activate constraints
         NSLayoutConstraint.activate(constraints)
